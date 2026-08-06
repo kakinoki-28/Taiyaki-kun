@@ -15,7 +15,7 @@ namespace TaiyakiKun
 
         [SerializeField]
         [Tooltip("Keeps the billboard vertical by rotating it only around the Y axis.")]
-        private bool lockYAxis = true;
+        private bool lockYAxis;
 
         public Camera TargetCamera
         {

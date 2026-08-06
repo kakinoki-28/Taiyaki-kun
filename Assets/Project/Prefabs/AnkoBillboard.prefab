@@ -107,7 +107,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TaiyakiKun.CameraFacingBillboard
   targetCamera: {fileID: 0}
-  lockYAxis: 1
+  lockYAxis: 0
 --- !u!65 &6397100146843991918
 BoxCollider:
   m_ObjectHideFlags: 0
