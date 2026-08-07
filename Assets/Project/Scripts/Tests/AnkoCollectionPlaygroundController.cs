@@ -48,18 +48,26 @@ namespace TaiyakiKun.Tests
 
         private Rigidbody body;
         private ScoreManager scoreManager;
+        private CollectionFeedbackRelay feedbackRelay;
         private AudioSource pickupAudioSource;
         private Camera gameplayCamera;
         private Vector2 moveInput;
         private int totalAnkoCount;
         private int previousAnkoCount;
-        private int popupAmount;
+        private string popupText;
+        private Color popupColor = Color.white;
         private float popupStartedAt = float.NegativeInfinity;
 
         private void Awake()
         {
             body = GetComponent<Rigidbody>();
             scoreManager = GetComponent<ScoreManager>();
+            feedbackRelay = GetComponent<CollectionFeedbackRelay>();
+            if (feedbackRelay == null)
+            {
+                feedbackRelay = gameObject.AddComponent<CollectionFeedbackRelay>();
+            }
+
             fishHopper = fishHopper != null ? fishHopper : GetComponent<global::FishHopper>();
             pickupAudioSource = GetComponent<AudioSource>();
             if (pickupAudioSource == null)
@@ -77,11 +85,13 @@ namespace TaiyakiKun.Tests
         private void OnEnable()
         {
             scoreManager.AnkoCountChanged += HandleAnkoCountChanged;
+            feedbackRelay.FeedbackRequested += HandleFeedbackRequested;
         }
 
         private void OnDisable()
         {
             scoreManager.AnkoCountChanged -= HandleAnkoCountChanged;
+            feedbackRelay.FeedbackRequested -= HandleFeedbackRequested;
 
             if (fishHopper != null)
             {
@@ -194,8 +204,7 @@ namespace TaiyakiKun.Tests
                 return;
             }
 
-            popupAmount = collectedAmount;
-            popupStartedAt = Time.time;
+            ShowPickupPopup($"+{collectedAmount}", new Color(1f, 0.83f, 0.12f));
 
             if (pickupSound != null)
             {
@@ -203,10 +212,24 @@ namespace TaiyakiKun.Tests
             }
         }
 
+        private void HandleFeedbackRequested(string message, Color color)
+        {
+            ShowPickupPopup(message, color);
+        }
+
+        private void ShowPickupPopup(string message, Color color)
+        {
+            popupText = message;
+            popupColor = color;
+            popupStartedAt = Time.time;
+        }
+
         private void DrawPickupPopup()
         {
             float elapsed = Time.time - popupStartedAt;
-            if (popupAmount <= 0 || elapsed < 0f || elapsed >= pickupPopupDuration)
+            if (string.IsNullOrEmpty(popupText)
+                || elapsed < 0f
+                || elapsed >= pickupPopupDuration)
             {
                 return;
             }
@@ -226,18 +249,21 @@ namespace TaiyakiKun.Tests
 
             float progress = Mathf.Clamp01(elapsed / pickupPopupDuration);
             float guiY = Screen.height - screenPosition.y - pickupPopupRise * progress;
-            Rect popupRect = new Rect(screenPosition.x - 60f, guiY - 25f, 120f, 50f);
+            Rect popupRect = new Rect(screenPosition.x - 110f, guiY - 25f, 220f, 50f);
 
             GUIStyle popupStyle = new GUIStyle(GUI.skin.label);
             popupStyle.fontSize = 30;
             popupStyle.fontStyle = FontStyle.Bold;
             popupStyle.alignment = TextAnchor.MiddleCenter;
-            popupStyle.normal.textColor = new Color(1f, 0.83f, 0.12f, 1f - progress);
+            popupStyle.normal.textColor = new Color(
+                popupColor.r,
+                popupColor.g,
+                popupColor.b,
+                popupColor.a * (1f - progress));
 
             GUIStyle shadowStyle = new GUIStyle(popupStyle);
             shadowStyle.normal.textColor = new Color(0f, 0f, 0f, 0.65f * (1f - progress));
 
-            string popupText = $"+{popupAmount}";
             Rect shadowRect = new Rect(popupRect.x + 2f, popupRect.y + 2f, popupRect.width, popupRect.height);
             GUI.Label(shadowRect, popupText, shadowStyle);
             GUI.Label(popupRect, popupText, popupStyle);
