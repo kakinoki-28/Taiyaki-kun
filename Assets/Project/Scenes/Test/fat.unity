@@ -951,6 +951,7 @@ GameObject:
   - component: {fileID: 552695395}
   - component: {fileID: 552695399}
   - component: {fileID: 552695398}
+  - component: {fileID: 552695400}
   m_Layer: 0
   m_Name: PlayableTaiyakiCollector
   m_TagString: Untagged
@@ -1308,6 +1309,21 @@ MonoBehaviour:
     m_Bits: 4294967295
   raycastOffset: {x: 0, y: 0.5, z: 0}
   isInShadow: 0
+--- !u!114 &552695400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 552695387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3df8de97bb9f65e4fbfd3f2fd942f0c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MultiAnkoBlendShapeController
+  scoreManager: {fileID: 552695389}
+  targetAnkoCount: 3
+  blendShapeName: anko
 --- !u!1 &601286989
 GameObject:
   m_ObjectHideFlags: 0
