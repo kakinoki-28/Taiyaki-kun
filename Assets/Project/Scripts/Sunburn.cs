@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Sunburn : MonoBehaviour
@@ -22,9 +23,41 @@ public class Sunburn : MonoBehaviour
     [Tooltip("Vの最小値")]
     public float minV = 0.0f;
 
+    public event Action UvProtectionActivated;
+    public event Action UvProtectionEnded;
+
+    public bool IsUvProtected => uvProtectionRemaining > 0f;
+    public float UvProtectionRemaining => Mathf.Max(0f, uvProtectionRemaining);
+    public float UvProtectionNormalized => activeUvProtectionDuration > 0f
+        ? Mathf.Clamp01(uvProtectionRemaining / activeUvProtectionDuration)
+        : 0f;
+    public float SunburnHealthNormalized
+    {
+        get
+        {
+            if (targetMaterial == null || !targetMaterial.HasProperty(colorPropertyName))
+            {
+                return 1f;
+            }
+
+            Color currentColor = targetMaterial.GetColor(colorPropertyName);
+            Color.RGBToHSV(currentColor, out _, out _, out float currentBrightness);
+            float brightnessRange = originalBrightness - minV;
+            if (brightnessRange <= Mathf.Epsilon)
+            {
+                return currentBrightness > minV ? 1f : 0f;
+            }
+
+            return Mathf.Clamp01((currentBrightness - minV) / brightnessRange);
+        }
+    }
+
     // 最初の色を記憶しておくための変数
     private Color originalColor;
     private Color originalEmissionColor;
+    private float originalBrightness = 1f;
+    private float uvProtectionRemaining;
+    private float activeUvProtectionDuration;
 
     private void Start()
     {
@@ -40,6 +73,7 @@ public class Sunburn : MonoBehaviour
             if (targetMaterial.HasProperty(colorPropertyName))
             {
                 originalColor = targetMaterial.GetColor(colorPropertyName);
+                Color.RGBToHSV(originalColor, out _, out _, out originalBrightness);
             }
 
             // EmissionColorの初期値を記憶
@@ -52,6 +86,19 @@ public class Sunburn : MonoBehaviour
 
     private void Update()
     {
+        if (IsUvProtected)
+        {
+            uvProtectionRemaining -= Time.deltaTime;
+            if (uvProtectionRemaining <= 0f)
+            {
+                uvProtectionRemaining = 0f;
+                UvProtectionEnded?.Invoke();
+            }
+
+            // 日向にいても、日焼け止めの効果中は明度を下げない。
+            return;
+        }
+
         if (shadowDetector == null || targetMaterial == null) return;
 
         // ShadowDetectorの判定結果を読み取り、影にいない場合のみ暗くする
@@ -59,6 +106,16 @@ public class Sunburn : MonoBehaviour
         {
             DecreaseBrightness();
         }
+    }
+
+    /// <summary>
+    /// 指定秒数だけ日焼けを無効化します。効果中に再取得すると残り時間を更新します。
+    /// </summary>
+    public void ActivateUvProtection(float durationSeconds)
+    {
+        activeUvProtectionDuration = Mathf.Max(0.1f, durationSeconds);
+        uvProtectionRemaining = activeUvProtectionDuration;
+        UvProtectionActivated?.Invoke();
     }
 
     private void DecreaseBrightness()

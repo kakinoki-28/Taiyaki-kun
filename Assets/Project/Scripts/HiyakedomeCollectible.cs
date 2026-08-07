@@ -15,6 +15,10 @@ namespace TaiyakiKun
         [SerializeField]
         private Color feedbackColor = new Color(0.2f, 0.9f, 1f);
 
+        [SerializeField]
+        [Min(0.1f)]
+        private float protectionDuration = 10f;
+
         private bool isCollected;
 
         private void Reset()
@@ -39,6 +43,17 @@ namespace TaiyakiKun
             if (scoreManager == null)
             {
                 return;
+            }
+
+            global::Sunburn sunburn = scoreManager.GetComponent<global::Sunburn>();
+            if (sunburn == null)
+            {
+                sunburn = scoreManager.GetComponentInChildren<global::Sunburn>(true);
+            }
+
+            if (sunburn != null)
+            {
+                sunburn.ActivateUvProtection(protectionDuration);
             }
 
             CollectionFeedbackRelay feedbackRelay = scoreManager.GetComponent<CollectionFeedbackRelay>();
