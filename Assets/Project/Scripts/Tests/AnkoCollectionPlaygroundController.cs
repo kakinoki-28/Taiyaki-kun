@@ -36,8 +36,19 @@ namespace TaiyakiKun.Tests
         [Min(0f)]
         private float pickupPopupRise = 36f;
 
+        [SerializeField]
+        private global::FishHopper fishHopper;
+
+        [SerializeField]
+        private AudioClip pickupSound;
+
+        [SerializeField]
+        [Range(0f, 1f)]
+        private float pickupSoundVolume = 0.85f;
+
         private Rigidbody body;
         private ScoreManager scoreManager;
+        private AudioSource pickupAudioSource;
         private Camera gameplayCamera;
         private Vector2 moveInput;
         private int totalAnkoCount;
@@ -49,6 +60,16 @@ namespace TaiyakiKun.Tests
         {
             body = GetComponent<Rigidbody>();
             scoreManager = GetComponent<ScoreManager>();
+            fishHopper = fishHopper != null ? fishHopper : GetComponent<global::FishHopper>();
+            pickupAudioSource = GetComponent<AudioSource>();
+            if (pickupAudioSource == null)
+            {
+                pickupAudioSource = gameObject.AddComponent<AudioSource>();
+            }
+
+            pickupAudioSource.playOnAwake = false;
+            pickupAudioSource.loop = false;
+            pickupAudioSource.spatialBlend = 0f;
             previousAnkoCount = scoreManager.AnkoCount;
             ApplyTestCubeColor();
         }
@@ -61,6 +82,11 @@ namespace TaiyakiKun.Tests
         private void OnDisable()
         {
             scoreManager.AnkoCountChanged -= HandleAnkoCountChanged;
+
+            if (fishHopper != null)
+            {
+                fishHopper.SetMoveInput(Vector2.zero);
+            }
         }
 
         private void Start()
@@ -72,10 +98,21 @@ namespace TaiyakiKun.Tests
         private void Update()
         {
             ReadKeyboardInput();
+
+            if (fishHopper != null)
+            {
+                fishHopper.SetMoveInput(moveInput);
+            }
         }
 
         private void FixedUpdate()
         {
+            if (fishHopper != null)
+            {
+                KeepHopperInsideArena();
+                return;
+            }
+
             Vector3 direction = new Vector3(moveInput.x, 0f, moveInput.y);
             if (direction.sqrMagnitude <= Mathf.Epsilon)
             {
@@ -97,6 +134,32 @@ namespace TaiyakiKun.Tests
             body.MoveRotation(nextRotation);
         }
 
+        private void KeepHopperInsideArena()
+        {
+            Vector3 position = body.position;
+            float clampedX = Mathf.Clamp(position.x, horizontalBounds.x, horizontalBounds.y);
+            float clampedZ = Mathf.Clamp(position.z, depthBounds.x, depthBounds.y);
+            if (Mathf.Approximately(position.x, clampedX)
+                && Mathf.Approximately(position.z, clampedZ))
+            {
+                return;
+            }
+
+            Vector3 velocity = body.linearVelocity;
+            if (!Mathf.Approximately(position.x, clampedX))
+            {
+                velocity.x = 0f;
+            }
+
+            if (!Mathf.Approximately(position.z, clampedZ))
+            {
+                velocity.z = 0f;
+            }
+
+            body.position = new Vector3(clampedX, position.y, clampedZ);
+            body.linearVelocity = velocity;
+        }
+
         private void OnGUI()
         {
             const float panelWidth = 340f;
@@ -112,7 +175,7 @@ namespace TaiyakiKun.Tests
             labelStyle.fontSize = 20;
             labelStyle.normal.textColor = Color.white;
 
-            GUI.Label(new Rect(34f, 28f, 310f, 28f), "Move: WASD / Arrow Keys", labelStyle);
+            GUI.Label(new Rect(34f, 28f, 310f, 28f), "Hold WASD / Arrows to hop", labelStyle);
             GUI.Label(
                 new Rect(34f, 58f, 310f, 28f),
                 $"Anko: {scoreManager.AnkoCount} / {totalAnkoCount}",
@@ -133,6 +196,11 @@ namespace TaiyakiKun.Tests
 
             popupAmount = collectedAmount;
             popupStartedAt = Time.time;
+
+            if (pickupSound != null)
+            {
+                pickupAudioSource.PlayOneShot(pickupSound, pickupSoundVolume);
+            }
         }
 
         private void DrawPickupPopup()
