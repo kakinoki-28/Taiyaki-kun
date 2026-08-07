@@ -1,256 +1,271 @@
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace TaiyakiKun
 {
-    /// <summary>Responsive result screen for anko, sunburn, time, and their total.</summary>
     [DisallowMultipleComponent]
     public sealed class ResultScreenController : MonoBehaviour
     {
-        [Header("Preview Values (used when the scene is played directly)")]
-        [SerializeField, Min(0)] private int previewAnkoScore = 1250;
-        [SerializeField, Min(0)] private int previewSunburnScore = 820;
-        [SerializeField, Min(0)] private int previewTimeScore = 930;
-
-        [Header("Presentation")]
+        [Header("Preview Values")]
+        [SerializeField, Min(0)] private int previewAnkoGrams = 120;
+        [SerializeField, Range(0f, 100f)] private float previewSunburnPercent = 72f;
+        [SerializeField, Min(0f)] private float previewElapsedSeconds = 154f;
         [SerializeField, Min(0.1f)] private float countUpDuration = 1.5f;
-        [SerializeField, Min(1)] private int categoryGaugeMaximum = 1500;
 
-        private static readonly Color BackgroundColor = new Color32(246, 240, 229, 255);
-        private static readonly Color InkColor = new Color32(41, 37, 45, 255);
-        private static readonly Color MutedColor = new Color32(116, 107, 104, 255);
-        private static readonly Color AnkoColor = new Color32(121, 54, 44, 255);
-        private static readonly Color SunburnColor = new Color32(232, 133, 55, 255);
-        private static readonly Color TimeColor = new Color32(69, 132, 157, 255);
-        private static readonly Color TotalColor = new Color32(43, 48, 61, 255);
+        [Header("Sea Background")]
+        [SerializeField] private Texture2D oceanBackgroundTexture;
+        [SerializeField] private GameObject backgroundTaiyakiPrefab;
 
-        private Texture2D whiteTexture;
-        private Font uiFont;
-        private GUIStyle titleStyle;
-        private GUIStyle eyebrowStyle;
-        private GUIStyle cardLabelStyle;
-        private GUIStyle scoreStyle;
-        private GUIStyle unitStyle;
-        private GUIStyle totalLabelStyle;
-        private GUIStyle totalScoreStyle;
-        private GUIStyle footerStyle;
+        private static readonly Color Ink = new Color32(27, 54, 67, 255);
+        private static readonly Color Muted = new Color32(75, 103, 113, 255);
+        private static readonly Color Anko = new Color32(130, 66, 52, 255);
+        private static readonly Color Sunburn = new Color32(235, 139, 54, 255);
+        private static readonly Color TimeColor = new Color32(39, 143, 177, 255);
+        private static readonly Color Total = new Color32(15, 59, 78, 240);
 
-        private int ankoScore;
-        private int sunburnScore;
-        private int timeScore;
+        private Texture2D pixel;
+        private Texture2D roundMask;
+        private GUIStyle roundStyle;
+        private Font font;
+        private int ankoGrams;
+        private float sunburnPercent;
+        private float elapsedSeconds;
         private float shownAt;
 
-        public int TotalScore => ankoScore + sunburnScore + timeScore;
+        public int TotalScore => ResultScoreData.CalculateTotalScore(ankoGrams, sunburnPercent, elapsedSeconds);
 
         private void Awake()
         {
             if (ResultScoreData.HasResult)
             {
-                SetScores(ResultScoreData.AnkoScore, ResultScoreData.SunburnScore, ResultScoreData.TimeScore);
+                SetResults(ResultScoreData.AnkoGrams, ResultScoreData.SunburnPercent, ResultScoreData.ElapsedSeconds);
             }
             else
             {
-                SetScores(previewAnkoScore, previewSunburnScore, previewTimeScore);
+                SetResults(previewAnkoGrams, previewSunburnPercent, previewElapsedSeconds);
             }
 
-            whiteTexture = new Texture2D(1, 1, TextureFormat.RGBA32, false)
+            font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+            pixel = MakePixel();
+            roundMask = MakeRoundMask(64, 14f);
+            roundStyle = new GUIStyle
             {
-                name = "Result Screen Pixel",
-                hideFlags = HideFlags.HideAndDontSave
+                normal = { background = roundMask },
+                border = new RectOffset(18, 18, 18, 18)
             };
-            whiteTexture.SetPixel(0, 0, Color.white);
-            whiteTexture.Apply();
-            uiFont = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+            BuildSeaScene();
         }
 
         private void OnDestroy()
         {
-            if (whiteTexture != null)
-            {
-                Destroy(whiteTexture);
-            }
+            if (pixel != null) Destroy(pixel);
+            if (roundMask != null) Destroy(roundMask);
         }
 
-        /// <summary>Updates all result values and restarts the count-up animation.</summary>
-        public void SetScores(int newAnkoScore, int newSunburnScore, int newTimeScore)
+        public void SetResults(int grams, float percent, float seconds)
         {
-            ankoScore = Mathf.Max(0, newAnkoScore);
-            sunburnScore = Mathf.Max(0, newSunburnScore);
-            timeScore = Mathf.Max(0, newTimeScore);
+            ankoGrams = Mathf.Max(0, grams);
+            sunburnPercent = Mathf.Clamp(percent, 0f, 100f);
+            elapsedSeconds = Mathf.Max(0f, seconds);
             shownAt = Time.unscaledTime;
+        }
+
+        public void SetScores(int grams, int percent, int seconds) => SetResults(grams, percent, seconds);
+
+        private void BuildSeaScene()
+        {
+            Camera camera = Camera.main;
+            if (camera != null)
+            {
+                camera.clearFlags = CameraClearFlags.SolidColor;
+                camera.backgroundColor = new Color(0.02f, 0.2f, 0.29f, 1f);
+                CreateOceanQuad(camera);
+            }
+
+            RenderSettings.fog = true;
+            RenderSettings.fogMode = FogMode.ExponentialSquared;
+            RenderSettings.fogDensity = 0.025f;
+            RenderSettings.fogColor = new Color(0.04f, 0.3f, 0.38f, 1f);
+
+            GameObject sunObject = new GameObject("Underwater Sunlight");
+            Light sunlight = sunObject.AddComponent<Light>();
+            sunlight.type = LightType.Directional;
+            sunlight.color = new Color(0.72f, 0.96f, 0.93f, 1f);
+            sunlight.intensity = 1.4f;
+            sunlight.shadows = LightShadows.Soft;
+            sunObject.transform.rotation = Quaternion.Euler(38f, -32f, 0f);
+
+            if (backgroundTaiyakiPrefab == null) return;
+            Transform school = new GameObject("Static Taiyaki School").transform;
+            AddTaiyaki(school, "Taiyaki Left", new Vector3(-4.2f, 1.3f, 2f), new Vector3(-5f, 102f, -7f), 8.5f);
+            AddTaiyaki(school, "Taiyaki Right", new Vector3(3.8f, -1.4f, 3.2f), new Vector3(8f, -94f, 5f), 7f);
+            AddTaiyaki(school, "Taiyaki Far Right", new Vector3(5.1f, 2.7f, 7f), new Vector3(0f, -102f, -10f), 4.6f);
+            AddTaiyaki(school, "Taiyaki Far Left", new Vector3(-5.4f, -2.8f, 8.5f), new Vector3(10f, 88f, 8f), 3.8f);
+        }
+
+        private void CreateOceanQuad(Camera camera)
+        {
+            if (oceanBackgroundTexture == null) return;
+            GameObject quad = GameObject.CreatePrimitive(PrimitiveType.Quad);
+            quad.name = "Ocean Background";
+            quad.transform.position = camera.transform.position + camera.transform.forward * 25f;
+            quad.transform.rotation = camera.transform.rotation;
+            Collider collider = quad.GetComponent<Collider>();
+            if (collider != null) Destroy(collider);
+
+            Shader shader = Shader.Find("Universal Render Pipeline/Unlit") ?? Shader.Find("Unlit/Texture");
+            Material material = new Material(shader) { mainTexture = oceanBackgroundTexture };
+            if (material.HasProperty("_Cull")) material.SetFloat("_Cull", 0f);
+            MeshRenderer renderer = quad.GetComponent<MeshRenderer>();
+            renderer.sharedMaterial = material;
+            renderer.shadowCastingMode = ShadowCastingMode.Off;
+            renderer.receiveShadows = false;
+
+            float height = 2f * 25f * Mathf.Tan(camera.fieldOfView * 0.5f * Mathf.Deg2Rad);
+            quad.transform.localScale = new Vector3(height * camera.aspect * 1.02f, height * 1.02f, 1f);
+        }
+
+        private void AddTaiyaki(Transform parent, string name, Vector3 position, Vector3 angles, float scale)
+        {
+            GameObject fish = Instantiate(backgroundTaiyakiPrefab, position, Quaternion.Euler(angles), parent);
+            fish.name = name;
+            fish.transform.localScale = Vector3.one * scale;
+            Animator animator = fish.GetComponent<Animator>();
+            if (animator != null) animator.enabled = false;
         }
 
         private void OnGUI()
         {
-            if (whiteTexture == null)
-            {
-                return;
-            }
-
-            BuildStyles();
-
-            float width = Screen.width;
-            float height = Screen.height;
-            float scale = Mathf.Clamp(Mathf.Min(width / 1440f, height / 900f), 0.4f, 1.45f);
-            float contentWidth = Mathf.Min(width - 64f * scale, 1180f * scale);
-            float left = (width - contentWidth) * 0.5f;
+            if (pixel == null || roundStyle == null) return;
+            float w = Screen.width;
+            float h = Screen.height;
+            float s = Mathf.Clamp(Mathf.Min(w / 1440f, h / 900f), 0.4f, 1.45f);
+            float contentW = Mathf.Min(w - 64f * s, 1180f * s);
+            float left = (w - contentW) * 0.5f;
             float elapsed = Mathf.Max(0f, Time.unscaledTime - shownAt);
-            float countProgress = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(elapsed / countUpDuration));
+            float progress = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(elapsed / countUpDuration));
 
-            DrawRect(new Rect(0f, 0f, width, height), BackgroundColor);
-            DrawDecorations(width, height, scale);
+            RectFill(new Rect(0, 0, w, h), new Color(0f, 0.15f, 0.22f, 0.18f));
+            RectFill(new Rect(0, 0, w, 10f * s), new Color(0.5f, 0.9f, 0.94f, 0.9f));
+            Label(new Rect(left, 55f * s, contentW, 30f * s), "UNDERWATER RESULT", 17, FontStyle.Bold,
+                new Color32(177, 239, 241, 255), TextAnchor.MiddleLeft, s);
+            Label(new Rect(left, 86f * s, contentW, 75f * s), "今回のスコア", 56, FontStyle.Bold,
+                Color.white, TextAnchor.MiddleLeft, s);
 
-            Rect eyebrowRect = new Rect(left, 70f * scale, contentWidth, 28f * scale);
-            GUI.Label(eyebrowRect, "TAIYAKI RESULT", eyebrowStyle);
+            float gap = 22f * s;
+            float cardW = (contentW - gap * 2f) / 3f;
+            float top = 205f * s;
+            float cardH = 290f * s;
+            Card(new Rect(left, top, cardW, cardH), "あんこの量",
+                $"{Mathf.RoundToInt(ankoGrams * progress):N0}", "g", ankoGrams / 200f, Anko, s);
+            Card(new Rect(left + cardW + gap, top, cardW, cardH), "日焼け度合",
+                $"{sunburnPercent * progress:0}", "%", sunburnPercent / 100f, Sunburn, s);
+            Card(new Rect(left + (cardW + gap) * 2f, top, cardW, cardH), "時間",
+                FormatTime(elapsedSeconds * progress), "MIN / SEC", 1f - elapsedSeconds / 450f, TimeColor, s);
 
-            Rect titleRect = new Rect(left, 100f * scale, contentWidth, 82f * scale);
-            GUI.Label(titleRect, "今回のスコア", titleStyle);
-
-            float cardGap = 22f * scale;
-            float cardWidth = (contentWidth - cardGap * 2f) / 3f;
-            float cardTop = 222f * scale;
-            float cardHeight = 286f * scale;
-
-            DrawScoreCard(
-                new Rect(left, cardTop, cardWidth, cardHeight),
-                "あんこの量",
-                Mathf.RoundToInt(ankoScore * countProgress),
-                ankoScore,
-                AnkoColor,
-                scale,
-                Mathf.Clamp01(elapsed / 0.35f));
-
-            DrawScoreCard(
-                new Rect(left + cardWidth + cardGap, cardTop, cardWidth, cardHeight),
-                "日焼け度合",
-                Mathf.RoundToInt(sunburnScore * countProgress),
-                sunburnScore,
-                SunburnColor,
-                scale,
-                Mathf.Clamp01((elapsed - 0.12f) / 0.35f));
-
-            DrawScoreCard(
-                new Rect(left + (cardWidth + cardGap) * 2f, cardTop, cardWidth, cardHeight),
-                "時間",
-                Mathf.RoundToInt(timeScore * countProgress),
-                timeScore,
-                TimeColor,
-                scale,
-                Mathf.Clamp01((elapsed - 0.24f) / 0.35f));
-
-            float totalTop = cardTop + cardHeight + 34f * scale;
-            float totalHeight = 184f * scale;
-            DrawTotalPanel(
-                new Rect(left, totalTop, contentWidth, totalHeight),
-                Mathf.RoundToInt(TotalScore * countProgress),
-                scale,
-                Mathf.Clamp01((elapsed - 0.4f) / 0.45f));
-
-            GUI.Label(
-                new Rect(left, totalTop + totalHeight + 20f * scale, contentWidth, 36f * scale),
-                "3つの評価を合計した最終スコアです",
-                footerStyle);
+            float totalTop = top + cardH + 34f * s;
+            Rect totalRect = new Rect(left, totalTop, contentW, 178f * s);
+            Round(new Rect(totalRect.x + 8f * s, totalRect.y + 10f * s, totalRect.width, totalRect.height),
+                new Color(0f, 0.05f, 0.08f, 0.25f));
+            Round(totalRect, Total);
+            Label(new Rect(totalRect.x + 52f * s, totalRect.y + 34f * s, totalRect.width * .38f, 50f * s),
+                "最終スコア", 31, FontStyle.Bold, Color.white, TextAnchor.MiddleLeft, s);
+            Label(new Rect(totalRect.x + totalRect.width * .42f, totalRect.y + 25f * s,
+                    totalRect.width * .51f, 92f * s),
+                $"{Mathf.RoundToInt(TotalScore * progress):N0}", 64, FontStyle.Bold, Color.white,
+                TextAnchor.MiddleRight, s);
+            Label(new Rect(totalRect.x + 54f * s, totalRect.y + 92f * s, totalRect.width * .38f, 30f * s),
+                "TOTAL SCORE", 16, FontStyle.Bold, new Color32(184, 220, 226, 255), TextAnchor.MiddleCenter, s);
+            Label(new Rect(left, totalTop + totalRect.height + 16f * s, contentW, 32f * s),
+                "あんこ × 10 ＋ 日焼け × 15 ＋ タイムボーナス", 16, FontStyle.Normal,
+                new Color32(224, 246, 248, 255), TextAnchor.MiddleCenter, s);
         }
 
-        private void DrawScoreCard(
-            Rect rect,
-            string label,
-            int displayedScore,
-            int finalScore,
-            Color accent,
-            float scale,
-            float reveal)
+        private void Card(Rect rect, string title, string value, string unit, float ratio, Color accent, float s)
         {
-            reveal = Mathf.SmoothStep(0f, 1f, reveal);
-            float slide = (1f - reveal) * 18f * scale;
-            rect.y += slide;
-
-            DrawRect(new Rect(rect.x + 7f * scale, rect.y + 10f * scale, rect.width, rect.height),
-                new Color(0f, 0f, 0f, 0.09f * reveal));
-            DrawRect(rect, new Color(1f, 1f, 1f, reveal));
-            DrawRect(new Rect(rect.x, rect.y, rect.width, 10f * scale), WithAlpha(accent, reveal));
-
-            GUI.color = new Color(1f, 1f, 1f, reveal);
-            GUI.Label(new Rect(rect.x + 28f * scale, rect.y + 36f * scale, rect.width - 56f * scale, 42f * scale),
-                label, cardLabelStyle);
-            GUI.Label(new Rect(rect.x + 24f * scale, rect.y + 92f * scale, rect.width - 48f * scale, 82f * scale),
-                displayedScore.ToString("N0"), scoreStyle);
-            GUI.Label(new Rect(rect.x + 24f * scale, rect.y + 166f * scale, rect.width - 48f * scale, 28f * scale),
-                "SCORE", unitStyle);
-
-            Rect gaugeBack = new Rect(rect.x + 30f * scale, rect.y + rect.height - 54f * scale,
-                rect.width - 60f * scale, 9f * scale);
-            DrawRect(gaugeBack, new Color(0.88f, 0.86f, 0.83f, reveal));
-            float gaugeRatio = Mathf.Clamp01((float)finalScore / categoryGaugeMaximum);
-            DrawRect(new Rect(gaugeBack.x, gaugeBack.y, gaugeBack.width * gaugeRatio, gaugeBack.height),
-                WithAlpha(accent, reveal));
-            GUI.color = Color.white;
+            Round(new Rect(rect.x + 7f * s, rect.y + 10f * s, rect.width, rect.height),
+                new Color(0f, .08f, .12f, .22f));
+            Round(rect, new Color(1f, 1f, 1f, .78f));
+            Round(new Rect(rect.x + 26f * s, rect.y + 23f * s, rect.width - 52f * s, 8f * s), accent);
+            Label(new Rect(rect.x + 20f * s, rect.y + 46f * s, rect.width - 40f * s, 42f * s),
+                title, 25, FontStyle.Bold, Ink, TextAnchor.MiddleCenter, s);
+            Label(new Rect(rect.x + 16f * s, rect.y + 98f * s, rect.width - 32f * s, 80f * s),
+                value, 49, FontStyle.Bold, Ink, TextAnchor.MiddleCenter, s);
+            Label(new Rect(rect.x + 20f * s, rect.y + 174f * s, rect.width - 40f * s, 30f * s),
+                unit, 17, FontStyle.Bold, Muted, TextAnchor.MiddleCenter, s);
+            Rect bar = new Rect(rect.x + 32f * s, rect.y + rect.height - 52f * s, rect.width - 64f * s, 9f * s);
+            Round(bar, new Color(.1f, .22f, .28f, .15f));
+            Round(new Rect(bar.x, bar.y, bar.width * Mathf.Clamp01(ratio), bar.height), accent);
         }
 
-        private void DrawTotalPanel(Rect rect, int displayedTotal, float scale, float reveal)
+        private void Label(Rect rect, string text, int size, FontStyle style, Color color, TextAnchor anchor, float s)
         {
-            reveal = Mathf.SmoothStep(0f, 1f, reveal);
-            DrawRect(new Rect(rect.x + 8f * scale, rect.y + 11f * scale, rect.width, rect.height),
-                new Color(0f, 0f, 0f, 0.13f * reveal));
-            DrawRect(rect, WithAlpha(TotalColor, reveal));
-            DrawRect(new Rect(rect.x, rect.y, 12f * scale, rect.height),
-                WithAlpha(SunburnColor, reveal));
-
-            GUI.color = new Color(1f, 1f, 1f, reveal);
-            GUI.Label(new Rect(rect.x + 52f * scale, rect.y + 36f * scale, rect.width * 0.38f, 48f * scale),
-                "合計スコア", totalLabelStyle);
-            GUI.Label(new Rect(rect.x + rect.width * 0.43f, rect.y + 30f * scale,
-                    rect.width * 0.5f, 94f * scale),
-                displayedTotal.ToString("N0"), totalScoreStyle);
-            GUI.Label(new Rect(rect.x + 54f * scale, rect.y + 96f * scale, rect.width * 0.38f, 30f * scale),
-                "TOTAL SCORE", unitStyle);
-            GUI.color = Color.white;
-        }
-
-        private void DrawDecorations(float width, float height, float scale)
-        {
-            DrawRect(new Rect(0f, 0f, width, 14f * scale), AnkoColor);
-            DrawRect(new Rect(width - 290f * scale, 92f * scale, 220f * scale, 4f * scale), SunburnColor);
-            DrawRect(new Rect(70f * scale, height - 82f * scale, 150f * scale, 4f * scale), TimeColor);
-        }
-
-        private void BuildStyles()
-        {
-            float scale = Mathf.Clamp(Mathf.Min(Screen.width / 1440f, Screen.height / 900f), 0.4f, 1.45f);
-            titleStyle = MakeStyle(Mathf.RoundToInt(58f * scale), FontStyle.Bold, InkColor, TextAnchor.MiddleLeft);
-            eyebrowStyle = MakeStyle(Mathf.RoundToInt(18f * scale), FontStyle.Bold, AnkoColor, TextAnchor.MiddleLeft);
-            cardLabelStyle = MakeStyle(Mathf.RoundToInt(26f * scale), FontStyle.Bold, InkColor, TextAnchor.MiddleCenter);
-            scoreStyle = MakeStyle(Mathf.RoundToInt(52f * scale), FontStyle.Bold, InkColor, TextAnchor.MiddleCenter);
-            unitStyle = MakeStyle(Mathf.RoundToInt(15f * scale), FontStyle.Bold, MutedColor, TextAnchor.MiddleCenter);
-            totalLabelStyle = MakeStyle(Mathf.RoundToInt(32f * scale), FontStyle.Bold, Color.white, TextAnchor.MiddleLeft);
-            totalScoreStyle = MakeStyle(Mathf.RoundToInt(66f * scale), FontStyle.Bold, Color.white, TextAnchor.MiddleRight);
-            footerStyle = MakeStyle(Mathf.RoundToInt(17f * scale), FontStyle.Normal, MutedColor, TextAnchor.MiddleCenter);
-        }
-
-        private GUIStyle MakeStyle(int fontSize, FontStyle fontStyle, Color color, TextAnchor alignment)
-        {
-            return new GUIStyle(GUI.skin.label)
+            GUIStyle guiStyle = new GUIStyle(GUI.skin.label)
             {
-                font = uiFont,
-                fontSize = fontSize,
-                fontStyle = fontStyle,
+                font = font,
+                fontSize = Mathf.Max(10, Mathf.RoundToInt(size * s)),
+                fontStyle = style,
+                alignment = anchor,
                 normal = { textColor = color },
-                alignment = alignment,
                 clipping = TextClipping.Clip
             };
+            GUI.Label(rect, text, guiStyle);
         }
 
-        private void DrawRect(Rect rect, Color color)
+        private static string FormatTime(float value)
         {
-            Color previous = GUI.color;
+            int seconds = Mathf.Max(0, Mathf.RoundToInt(value));
+            return $"{seconds / 60:00}分 {seconds % 60:00}秒";
+        }
+
+        private void RectFill(Rect rect, Color color)
+        {
+            Color old = GUI.color;
             GUI.color = color;
-            GUI.DrawTexture(rect, whiteTexture, ScaleMode.StretchToFill);
-            GUI.color = previous;
+            GUI.DrawTexture(rect, pixel);
+            GUI.color = old;
         }
 
-        private static Color WithAlpha(Color color, float alpha)
+        private void Round(Rect rect, Color color)
         {
-            color.a *= alpha;
-            return color;
+            Color old = GUI.color;
+            GUI.color = color;
+            GUI.Box(rect, GUIContent.none, roundStyle);
+            GUI.color = old;
+        }
+
+        private static Texture2D MakePixel()
+        {
+            Texture2D texture = new Texture2D(1, 1, TextureFormat.RGBA32, false)
+                { hideFlags = HideFlags.HideAndDontSave };
+            texture.SetPixel(0, 0, Color.white);
+            texture.Apply();
+            return texture;
+        }
+
+        private static Texture2D MakeRoundMask(int size, float radius)
+        {
+            Texture2D texture = new Texture2D(size, size, TextureFormat.RGBA32, false)
+            {
+                hideFlags = HideFlags.HideAndDontSave,
+                wrapMode = TextureWrapMode.Clamp,
+                filterMode = FilterMode.Bilinear
+            };
+            Color32[] colors = new Color32[size * size];
+            Vector2 center = Vector2.one * size * .5f;
+            Vector2 half = Vector2.one * (size * .5f - radius - 1f);
+            for (int y = 0; y < size; y++)
+            for (int x = 0; x < size; x++)
+            {
+                Vector2 p = new Vector2(x + .5f, y + .5f) - center;
+                Vector2 q = new Vector2(Mathf.Max(Mathf.Abs(p.x) - half.x, 0f),
+                    Mathf.Max(Mathf.Abs(p.y) - half.y, 0f));
+                byte alpha = (byte)Mathf.RoundToInt(Mathf.Clamp01(.5f - (q.magnitude - radius)) * 255f);
+                colors[y * size + x] = new Color32(255, 255, 255, alpha);
+            }
+            texture.SetPixels32(colors);
+            texture.Apply();
+            return texture;
         }
     }
 }

@@ -2,32 +2,41 @@ using UnityEngine;
 
 namespace TaiyakiKun
 {
-    /// <summary>
-    /// Carries the three final scores across scene loads.
-    /// Call SetScores before loading the Result scene.
-    /// </summary>
     public static class ResultScoreData
     {
-        public static int AnkoScore { get; private set; }
-        public static int SunburnScore { get; private set; }
-        public static int TimeScore { get; private set; }
+        public static int AnkoGrams { get; private set; }
+        public static float SunburnPercent { get; private set; }
+        public static float ElapsedSeconds { get; private set; }
         public static bool HasResult { get; private set; }
 
-        public static int TotalScore => AnkoScore + SunburnScore + TimeScore;
+        public static int TotalScore => CalculateTotalScore(AnkoGrams, SunburnPercent, ElapsedSeconds);
 
-        public static void SetScores(int ankoScore, int sunburnScore, int timeScore)
+        public static void SetResults(int ankoGrams, float sunburnPercent, float elapsedSeconds)
         {
-            AnkoScore = Mathf.Max(0, ankoScore);
-            SunburnScore = Mathf.Max(0, sunburnScore);
-            TimeScore = Mathf.Max(0, timeScore);
+            AnkoGrams = Mathf.Max(0, ankoGrams);
+            SunburnPercent = Mathf.Clamp(sunburnPercent, 0f, 100f);
+            ElapsedSeconds = Mathf.Max(0f, elapsedSeconds);
             HasResult = true;
+        }
+
+        public static void SetScores(int ankoGrams, int sunburnPercent, int elapsedSeconds)
+        {
+            SetResults(ankoGrams, sunburnPercent, elapsedSeconds);
+        }
+
+        public static int CalculateTotalScore(int ankoGrams, float sunburnPercent, float elapsedSeconds)
+        {
+            int ankoPoints = Mathf.Max(0, ankoGrams) * 10;
+            int sunburnPoints = Mathf.RoundToInt(Mathf.Clamp(sunburnPercent, 0f, 100f) * 15f);
+            int timePoints = Mathf.Max(0, 1800 - Mathf.RoundToInt(Mathf.Max(0f, elapsedSeconds) * 4f));
+            return ankoPoints + sunburnPoints + timePoints;
         }
 
         public static void Clear()
         {
-            AnkoScore = 0;
-            SunburnScore = 0;
-            TimeScore = 0;
+            AnkoGrams = 0;
+            SunburnPercent = 0f;
+            ElapsedSeconds = 0f;
             HasResult = false;
         }
     }
