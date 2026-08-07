@@ -41,6 +41,8 @@ public sealed class FishHopper : MonoBehaviour
     [Min(0f)] [SerializeField] private float maximumHorizontalSpeed = 5f;
     [Min(0f)] [SerializeField] private float minimumHopInterval = 0.06f;
     [Range(0f, 180f)] [SerializeField] private float maximumRandomAngle = 75f;
+    [Tooltip("有効にすると、移動入力がある間だけ次のジャンプを行います。")]
+    [SerializeField] private bool requireMoveInputToHop;
 
     [Header("Snappy Gravity")]
     [Tooltip("上昇中の重力倍率。1はUnity標準重力です。")]
@@ -219,13 +221,28 @@ public sealed class FishHopper : MonoBehaviour
         ApplyAdditionalGravity();
         ApplyAirControl();
 
-        if (grounded && Time.time >= nextHopTime)
+        bool hasMoveInput = moveInput != Vector2.zero;
+        if (grounded
+            && Time.time >= nextHopTime
+            && (!requireMoveInputToHop || hasMoveInput))
         {
             Hop();
+        }
+        else if (grounded && requireMoveInputToHop && !hasMoveInput)
+        {
+            StopHorizontalMovement();
         }
 
         // 接触イベントを受けなかったフレームでは空中とみなします。
         grounded = false;
+    }
+
+    private void StopHorizontalMovement()
+    {
+        Vector3 velocity = body.linearVelocity;
+        velocity.x = 0f;
+        velocity.z = 0f;
+        body.linearVelocity = velocity;
     }
 
     private void OnCollisionStay(Collision collision)
