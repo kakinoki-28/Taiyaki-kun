@@ -128,6 +128,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalPosition.x
       value: -11
       objectReference: {fileID: 0}
@@ -141,11 +153,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.9238795
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: 0.38268346
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.y
@@ -170,6 +182,10 @@ PrefabInstance:
     - target: {fileID: 7584719763053358761, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_Name
       value: AnkoBillboard_9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7584719763053358761, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8245073260186257460, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: targetCamera
@@ -302,15 +318,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.8
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1.8
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalScale.z
-      value: 1.8
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -326,11 +342,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.9238795
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: 0.38268346
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.y
@@ -461,6 +477,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalPosition.x
       value: -4
       objectReference: {fileID: 0}
@@ -474,11 +502,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.9238795
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: 0.38268346
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.y
@@ -503,6 +531,10 @@ PrefabInstance:
     - target: {fileID: 7584719763053358761, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_Name
       value: AnkoBillboard_18
+      objectReference: {fileID: 0}
+    - target: {fileID: 7584719763053358761, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8245073260186257460, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: targetCamera
@@ -547,11 +579,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.9238795
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: 0.38268346
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.y
@@ -577,6 +609,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: AnkoBillboard_5
       objectReference: {fileID: 0}
+    - target: {fileID: 7584719763053358761, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8245073260186257460, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: targetCamera
       value: 
@@ -595,6 +631,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 11
       objectReference: {fileID: 0}
@@ -608,11 +656,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.9238795
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: 0.38268346
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.y
@@ -638,6 +686,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: AnkoBillboard_24
       objectReference: {fileID: 0}
+    - target: {fileID: 7584719763053358761, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8245073260186257460, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: targetCamera
       value: 
@@ -656,6 +708,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalPosition.x
       value: -4
       objectReference: {fileID: 0}
@@ -669,11 +733,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.9238795
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: 0.38268346
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.y
@@ -698,6 +762,10 @@ PrefabInstance:
     - target: {fileID: 7584719763053358761, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_Name
       value: AnkoBillboard_10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7584719763053358761, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8245073260186257460, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: targetCamera
@@ -791,6 +859,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 11
       objectReference: {fileID: 0}
@@ -804,11 +884,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.9238795
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: 0.38268346
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.y
@@ -833,6 +913,10 @@ PrefabInstance:
     - target: {fileID: 7584719763053358761, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_Name
       value: AnkoBillboard_8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7584719763053358761, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8245073260186257460, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: targetCamera
@@ -861,6 +945,8 @@ GameObject:
   - component: {fileID: 552695397}
   - component: {fileID: 552695396}
   - component: {fileID: 552695395}
+  - component: {fileID: 552695399}
+  - component: {fileID: 552695398}
   m_Layer: 0
   m_Name: PlayableTaiyakiCollector
   m_TagString: Untagged
@@ -954,7 +1040,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 173679a61f5f4b343bd4e0a7067d74ce, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1016,8 +1102,8 @@ Transform:
   m_GameObject: {fileID: 552695387}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.6, z: -19.5}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 1, z: -19.5}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1570804477}
@@ -1159,17 +1245,17 @@ MonoBehaviour:
   readLegacyInput: 0
   inputDeadZone: 0.15
   operationRatio: 1
-  jumpSpeed: 5.4
+  jumpSpeed: 30
   horizontalHopSpeed: 4
   airAcceleration: 14
   maximumHorizontalSpeed: 5
-  minimumHopInterval: 0.14
+  minimumHopInterval: 0.5
   maximumRandomAngle: 0
   requireMoveInputToHop: 1
-  risingGravityMultiplier: 1.8
-  apexVelocityThreshold: 1.2
-  apexGravityMultiplier: 3.2
-  fallingGravityMultiplier: 2.7
+  risingGravityMultiplier: 17
+  apexVelocityThreshold: 7
+  apexGravityMultiplier: 25
+  fallingGravityMultiplier: 17
   groundLayers:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -1182,6 +1268,42 @@ MonoBehaviour:
   fullAnkoRandomMultiplier: 0.3
   fullAnkoControlMultiplier: 0.65
   visualTurnSpeed: 540
+--- !u!114 &552695398
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 552695387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a588467f7ea07049a34b2a5f905d7bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Sunburn
+  shadowDetector: {fileID: 0}
+  targetMaterial: {fileID: 2100000, guid: 173679a61f5f4b343bd4e0a7067d74ce, type: 2}
+  colorPropertyName: _BaseColor
+  emissionPropertyName: _EmissionColor
+  vDecreaseRate: 0.1
+  minV: 0
+--- !u!114 &552695399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 552695387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cc763fb96a3e204abec9aa6580edd4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShadowDetector
+  mainLight: {fileID: 771273735}
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  raycastOffset: {x: 0, y: 0.5, z: 0}
+  isInShadow: 0
 --- !u!1 &601286989
 GameObject:
   m_ObjectHideFlags: 0
@@ -1303,6 +1425,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalPosition.x
       value: -8
       objectReference: {fileID: 0}
@@ -1316,11 +1450,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.9238795
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: 0.38268346
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.y
@@ -1346,6 +1480,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: AnkoBillboard_13
       objectReference: {fileID: 0}
+    - target: {fileID: 7584719763053358761, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8245073260186257460, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: targetCamera
       value: 
@@ -1355,6 +1493,118 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+--- !u!1 &724765117
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 724765121}
+  - component: {fileID: 724765120}
+  - component: {fileID: 724765119}
+  - component: {fileID: 724765118}
+  m_Layer: 0
+  m_Name: Ceil
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!65 &724765118
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 724765117}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &724765119
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 724765117}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_MaskInteraction: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &724765120
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 724765117}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &724765121
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 724765117}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 15, z: -20}
+  m_LocalScale: {x: 10, y: 1, z: 20}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &765135139
 GameObject:
   m_ObjectHideFlags: 0
@@ -1502,10 +1752,10 @@ Light:
   m_InnerSpotAngle: 21.80208
   m_CookieSize2D: {x: 0.5, y: 0.5}
   m_Shadows:
-    m_Type: 2
+    m_Type: 1
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.9
     m_Bias: 0.05
     m_NormalBias: 0.4
     m_NearPlane: 0.2
@@ -1558,13 +1808,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 771273734}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.40821794, y: -0.23456973, z: 0.10938166, w: 0.8754261}
+  m_LocalRotation: {x: 0.6830127, y: -0.18301266, z: 0.18301266, w: 0.6830127}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: -30, z: 0}
 --- !u!114 &771273737
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1603,6 +1853,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalPosition.x
       value: -8.5
       objectReference: {fileID: 0}
@@ -1616,11 +1878,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.9238795
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: 0.38268346
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.y
@@ -1645,6 +1907,10 @@ PrefabInstance:
     - target: {fileID: 7584719763053358761, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_Name
       value: AnkoBillboard_21
+      objectReference: {fileID: 0}
+    - target: {fileID: 7584719763053358761, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8245073260186257460, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: targetCamera
@@ -1776,11 +2042,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.9238795
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: 0.38268346
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.y
@@ -1806,6 +2072,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: AnkoBillboard_4
       objectReference: {fileID: 0}
+    - target: {fileID: 7584719763053358761, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8245073260186257460, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: targetCamera
       value: 
@@ -1827,6 +2097,7 @@ GameObject:
   - component: {fileID: 963685494}
   - component: {fileID: 963685496}
   - component: {fileID: 963685497}
+  - component: {fileID: 963685498}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1963,6 +2234,14 @@ MonoBehaviour:
   useInitialY: 0
   fixedY: 11.5
   fixedEulerAngles: {x: 45, y: 0, z: 0}
+--- !u!81 &963685498
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963685493}
+  m_Enabled: 1
 --- !u!1001 &1163846507
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1997,11 +2276,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.9238795
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: 0.38268346
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.y
@@ -2027,6 +2306,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: AnkoBillboard_6
       objectReference: {fileID: 0}
+    - target: {fileID: 7584719763053358761, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8245073260186257460, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: targetCamera
       value: 
@@ -2045,6 +2328,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 3
       objectReference: {fileID: 0}
@@ -2058,11 +2353,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.9238795
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: 0.38268346
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.y
@@ -2088,6 +2383,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: AnkoBillboard_19
       objectReference: {fileID: 0}
+    - target: {fileID: 7584719763053358761, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8245073260186257460, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: targetCamera
       value: 
@@ -2106,6 +2405,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalPosition.x
       value: -11
       objectReference: {fileID: 0}
@@ -2119,11 +2430,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.9238795
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: 0.38268346
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.y
@@ -2149,6 +2460,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: AnkoBillboard_17
       objectReference: {fileID: 0}
+    - target: {fileID: 7584719763053358761, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8245073260186257460, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: targetCamera
       value: 
@@ -2167,6 +2482,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 5.5
       objectReference: {fileID: 0}
@@ -2180,11 +2507,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.9238795
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: 0.38268346
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.y
@@ -2210,6 +2537,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: AnkoBillboard_23
       objectReference: {fileID: 0}
+    - target: {fileID: 7584719763053358761, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8245073260186257460, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: targetCamera
       value: 
@@ -2229,15 +2560,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.8
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1.8
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalScale.z
-      value: 1.8
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2253,11 +2584,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.9238795
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: 0.38268346
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.y
@@ -2283,6 +2614,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: AnkoBillboard_2
       objectReference: {fileID: 0}
+    - target: {fileID: 7584719763053358761, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8245073260186257460, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: targetCamera
       value: 
@@ -2301,6 +2636,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 4
       objectReference: {fileID: 0}
@@ -2314,11 +2661,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.9238795
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: 0.38268346
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.y
@@ -2343,6 +2690,10 @@ PrefabInstance:
     - target: {fileID: 7584719763053358761, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_Name
       value: AnkoBillboard_11
+      objectReference: {fileID: 0}
+    - target: {fileID: 7584719763053358761, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8245073260186257460, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: targetCamera
@@ -2475,6 +2826,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2
       objectReference: {fileID: 0}
@@ -2488,11 +2851,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.9238795
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: 0.38268346
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.y
@@ -2518,6 +2881,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: AnkoBillboard_14
       objectReference: {fileID: 0}
+    - target: {fileID: 7584719763053358761, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8245073260186257460, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: targetCamera
       value: 
@@ -2536,6 +2903,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.5
       objectReference: {fileID: 0}
@@ -2549,11 +2928,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.9238795
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: 0.38268346
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.y
@@ -2578,6 +2957,10 @@ PrefabInstance:
     - target: {fileID: 7584719763053358761, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_Name
       value: AnkoBillboard_22
+      objectReference: {fileID: 0}
+    - target: {fileID: 7584719763053358761, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8245073260186257460, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: targetCamera
@@ -2719,6 +3102,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 10
       objectReference: {fileID: 0}
@@ -2732,11 +3127,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.9238795
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: 0.38268346
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.y
@@ -2762,6 +3157,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: AnkoBillboard_20
       objectReference: {fileID: 0}
+    - target: {fileID: 7584719763053358761, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8245073260186257460, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: targetCamera
       value: 
@@ -2780,6 +3179,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 11
       objectReference: {fileID: 0}
@@ -2793,11 +3204,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.9238795
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: 0.38268346
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.y
@@ -2823,6 +3234,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: AnkoBillboard_12
       objectReference: {fileID: 0}
+    - target: {fileID: 7584719763053358761, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8245073260186257460, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: targetCamera
       value: 
@@ -2841,6 +3256,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 5
       objectReference: {fileID: 0}
@@ -2854,11 +3281,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.9238795
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: 0.38268346
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.y
@@ -2884,6 +3311,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: AnkoBillboard_15
       objectReference: {fileID: 0}
+    - target: {fileID: 7584719763053358761, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8245073260186257460, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: targetCamera
       value: 
@@ -2903,15 +3334,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.8
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1.8
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalScale.z
-      value: 1.8
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2927,11 +3358,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.9238795
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: 0.38268346
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.y
@@ -2957,6 +3388,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: AnkoBillboard_3
       objectReference: {fileID: 0}
+    - target: {fileID: 7584719763053358761, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8245073260186257460, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: targetCamera
       value: 
@@ -2980,6 +3415,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 5.5
       objectReference: {fileID: 0}
@@ -2993,11 +3440,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.9238795
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: 0.38268346
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.y
@@ -3022,6 +3469,10 @@ PrefabInstance:
     - target: {fileID: 7584719763053358761, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_Name
       value: AnkoBillboard_7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7584719763053358761, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8245073260186257460, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: targetCamera
@@ -3153,6 +3604,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 10.5
       objectReference: {fileID: 0}
@@ -3166,11 +3629,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.9238795
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: 0.38268346
       objectReference: {fileID: 0}
     - target: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: m_LocalRotation.y
@@ -3196,6 +3659,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: AnkoBillboard_16
       objectReference: {fileID: 0}
+    - target: {fileID: 7584719763053358761, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8245073260186257460, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
       propertyPath: targetCamera
       value: 
@@ -3210,6 +3677,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 963685495}
+  - {fileID: 724765121}
   - {fileID: 771273736}
   - {fileID: 1482652739}
   - {fileID: 146673862}
