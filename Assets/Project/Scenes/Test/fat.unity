@@ -1289,7 +1289,7 @@ MonoBehaviour:
   targetMaterial: {fileID: 2100000, guid: 173679a61f5f4b343bd4e0a7067d74ce, type: 2}
   colorPropertyName: _BaseColor
   emissionPropertyName: _EmissionColor
-  vDecreaseRate: 0.1
+  vDecreaseRate: 0.3
   minV: 0
 --- !u!114 &552695399
 MonoBehaviour:
@@ -1308,6 +1308,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   raycastOffset: {x: 0, y: 0.5, z: 0}
+  fishHopper: {fileID: 552695397}
   isInShadow: 0
 --- !u!114 &552695400
 MonoBehaviour:
