@@ -1,0 +1,68 @@
+*   [33mcommit ef00e0334cffeeb38a4e459266f929171f2873d0[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+[31m|[m[32m\[m  Merge: 840f248 0cf4beb
+[31m|[m [32m|[m Author: aaa12345a <yuta.blaziken.0825@gmail.com>
+[31m|[m [32m|[m Date:   Thu Aug 6 16:26:30 2026 +0900
+[31m|[m [32m|[m 
+[31m|[m [32m|[m     Merge pull request #3 from kakinoki-28/motion
+[31m|[m [32m|[m     
+[31m|[m [32m|[m     TAIYAKI_motion
+[31m|[m [32m|[m 
+[31m|[m * [33mcommit 0cf4bebb3d052ff788273b4c2b36486602982a78[m[33m ([m[1;31morigin/motion[m[33m)[m
+[31m|[m [32m|[m Author: aaa12345a <yuta.blaziken.0825@gmail.com>
+[31m|[m [32m|[m Date:   Thu Aug 6 16:18:32 2026 +0900
+[31m|[m [32m|[m 
+[31m|[m [32m|[m     TAIYAKI_motion
+[31m|[m [32m|[m   
+* [32m|[m   [33mcommit 840f2481ce25c4dea149bf302016e6a23a57a0cf[m
+[33m|[m[34m\[m [32m\[m  Merge: 16f015a 0d0b33e
+[33m|[m [34m|[m [32m|[m Author: Shin Hyodo <132817666+sanma000@users.noreply.github.com>
+[33m|[m [34m|[m [32m|[m Date:   Thu Aug 6 16:24:35 2026 +0900
+[33m|[m [34m|[m [32m|[m 
+[33m|[m [34m|[m [32m|[m     Merge pull request #2 from kakinoki-28/sano
+[33m|[m [34m|[m [32m|[m     
+[33m|[m [34m|[m [32m|[m     あんこビルボード
+[33m|[m [34m|[m [32m|[m 
+[33m|[m * [32m|[m [33mcommit 0d0b33e58943a2cfac077b30258d5568bf5bd6fe[m[33m ([m[1;31morigin/sano[m[33m)[m
+[33m|[m [32m|[m[32m/[m  Author: Y. Sano <yusuke20020820@gmail.com>
+[33m|[m [32m|[m   Date:   Thu Aug 6 16:22:04 2026 +0900
+[33m|[m [32m|[m   
+[33m|[m [32m|[m       あんこビルボード
+[33m|[m [32m|[m   
+* [32m|[m   [33mcommit 16f015aa8966ac5cab3862fac71cd77a56af1073[m[33m ([m[1;32mshadow_test[m[33m)[m
+[32m|[m[36m\[m [32m\[m  Merge: ae6b309 977f563
+[32m|[m [36m|[m[32m/[m  Author: Shin Hyodo <132817666+sanma000@users.noreply.github.com>
+[32m|[m[32m/[m[36m|[m   Date:   Thu Aug 6 15:54:56 2026 +0900
+[32m|[m [36m|[m   
+[32m|[m [36m|[m       Merge pull request #1 from kakinoki-28/jump_program
+[32m|[m [36m|[m       
+[32m|[m [36m|[m       ジャンプとカメラ追従のプログラム
+[32m|[m [36m|[m 
+[32m|[m * [33mcommit 977f563e49d62bbbeac400a29086e3d6850c1c54[m[33m ([m[1;32mjump_program[m[33m)[m
+[32m|[m[32m/[m  Author: sanma000 <hyons.research@gmail.com>
+[32m|[m   Date:   Thu Aug 6 15:53:19 2026 +0900
+[32m|[m   
+[32m|[m       ジャンプとカメラ追従のプログラム
+[32m|[m 
+* [33mcommit ae6b3096e9968745a4a6cdd438d852c5f5d7a556[m[33m ([m[1;31morigin/make-stage[m[33m)[m
+[36m|[m Author: kakinoki-28 <kakinoki.kaki@gmail.com>
+[36m|[m Date:   Thu Aug 6 14:16:47 2026 +0900
+[36m|[m 
+[36m|[m     dir: ディレクトリを追加
+[36m|[m 
+* [33mcommit 8737cea182cac2e07984b2dc53627b0840507b87[m
+[36m|[m Author: kakinoki-28 <kakinoki.kaki@gmail.com>
+[36m|[m Date:   Thu Aug 6 14:10:53 2026 +0900
+[36m|[m 
+[36m|[m     dir: Scenes/Testsフォルダーの追加
+[36m|[m 
+* [33mcommit 742c0681255aca7e29a5ba3dbee69287d3299ead[m
+[36m|[m Author: kakinoki-28 <kakinoki.kaki@gmail.com>
+[36m|[m Date:   Thu Aug 6 14:00:28 2026 +0900
+[36m|[m 
+[36m|[m     docs: ディレクトリ構成の変更とReadmeの追加
+[36m|[m 
+* [33mcommit 034fc3f4942c53ab792fcfb59c12b97a0a1435b5[m
+  Author: kakinoki-28 <81556127+kakinoki-28@users.noreply.github.com>
+  Date:   Thu Aug 6 13:45:56 2026 +0900
+  
+      初回チェックイン
