@@ -194,6 +194,11 @@ namespace TaiyakiKun.Tests
                 return;
             }
 
+            if (fishHopper != null)
+            {
+                fishHopper.SetAnkoAmount(newCount/totalAnkoCount);
+            }
+            
             popupAmount = collectedAmount;
             popupStartedAt = Time.time;
 
