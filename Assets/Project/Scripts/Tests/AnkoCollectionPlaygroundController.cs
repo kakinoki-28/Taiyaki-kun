@@ -23,10 +23,10 @@ namespace TaiyakiKun.Tests
         private float rotationSpeed = 12f;
 
         [SerializeField]
-        private Vector2 horizontalBounds = new Vector2(-4.2f, 4.2f);
+        private Vector2 horizontalBounds = new Vector2(-15f, 15f);
 
         [SerializeField]
-        private Vector2 depthBounds = new Vector2(-4.2f, 4.2f);
+        private Vector2 depthBounds = new Vector2(0f, 100f);
 
         [SerializeField]
         [Min(0.1f)]
