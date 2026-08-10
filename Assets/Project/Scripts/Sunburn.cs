@@ -14,15 +14,7 @@ public class Sunburn : MonoBehaviour
     public float minV = 0.0f;
 
     [Header("オーディオ設定")]
-<<<<<<< Updated upstream
     [SerializeField] private AudioClip damageClip; // damage用
-=======
-<<<<<<< HEAD
-    [SerializeField] private AudioClip damageClip;
-=======
-    [SerializeField] private AudioClip damageClip; // damage用
->>>>>>> 139dc779d63b43f01a75a4162384be5d69de3216
->>>>>>> Stashed changes
     private AudioSource damageSource;
 
     public event Action UvProtectionActivated;
@@ -66,7 +58,7 @@ public class Sunburn : MonoBehaviour
 
         if (targetMaterial != null)
         {
-            // 開始時にマテリアルのベースカラーを強制的に白にリセットする
+            // 開始時にマテリアルのベースカラーを強制的に白（Color.white）にリセットする
             if (targetMaterial.HasProperty(colorPropertyName))
             {
                 targetMaterial.SetColor(colorPropertyName, Color.white);
@@ -90,14 +82,7 @@ public class Sunburn : MonoBehaviour
 
     private void Update()
     {
-<<<<<<< Updated upstream
         // ゲームオーバー時はダメージ音を停止する
-=======
-<<<<<<< HEAD
-=======
-        // ゲームオーバー時はダメージ音を停止する
->>>>>>> 139dc779d63b43f01a75a4162384be5d69de3216
->>>>>>> Stashed changes
         if (SunburnHealthNormalized <= 0f)
         {
             StopDamageSound();
@@ -112,15 +97,7 @@ public class Sunburn : MonoBehaviour
                 uvProtectionRemaining = 0f;
                 UvProtectionEnded?.Invoke();
             }
-<<<<<<< Updated upstream
             StopDamageSound(); // 保護されているので音を止める
-=======
-<<<<<<< HEAD
-            StopDamageSound();
-=======
-            StopDamageSound(); // 保護されているので音を止める
->>>>>>> 139dc779d63b43f01a75a4162384be5d69de3216
->>>>>>> Stashed changes
             return;
         }
 
@@ -130,14 +107,7 @@ public class Sunburn : MonoBehaviour
         {
             DecreaseBrightness();
             
-<<<<<<< Updated upstream
             // 焼けている間は音を再生する
-=======
-<<<<<<< HEAD
-=======
-            // 焼けている間は音を再生する
->>>>>>> 139dc779d63b43f01a75a4162384be5d69de3216
->>>>>>> Stashed changes
             if (damageClip != null && !damageSource.isPlaying)
             {
                 damageSource.Play();
@@ -145,14 +115,7 @@ public class Sunburn : MonoBehaviour
         }
         else
         {
-<<<<<<< Updated upstream
             // 日陰に入ったら音を止める
-=======
-<<<<<<< HEAD
-=======
-            // 日陰に入ったら音を止める
->>>>>>> 139dc779d63b43f01a75a4162384be5d69de3216
->>>>>>> Stashed changes
             StopDamageSound();
         }
     }
