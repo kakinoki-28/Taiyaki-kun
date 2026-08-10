@@ -30,6 +30,11 @@ namespace TaiyakiKun
         [Min(0.1f)]
         private float whiteFlashFrequency = 3f;
 
+        [SerializeField]
+        [Range(0f, 1f)]
+        [Tooltip("Opacity of the white layer blended over the original taiyaki colors.")]
+        private float whiteFlashOpacity = 1f;
+
         [Header("Timer UI")]
         [SerializeField]
         [Min(64f)]
@@ -46,7 +51,6 @@ namespace TaiyakiKun
         private LineRenderer outerRing;
         private LineRenderer innerRing;
         private Material ringMaterial;
-        private Material whiteFlashMaterial;
         private RendererMaterialState[] taiyakiRenderers;
         private bool isTaiyakiWhite;
         private float protectionVisualStartedAt;
@@ -63,7 +67,6 @@ namespace TaiyakiKun
         {
             sunburn = GetComponent<global::Sunburn>();
             CacheTaiyakiRenderers();
-            CreateWhiteFlashMaterial();
             CreateWorldEffect();
             CreateTimerUi();
             SetPresentationActive(false);
@@ -105,9 +108,12 @@ namespace TaiyakiKun
                 Destroy(ringMaterial);
             }
 
-            if (whiteFlashMaterial != null)
+            if (taiyakiRenderers != null)
             {
-                Destroy(whiteFlashMaterial);
+                foreach (RendererMaterialState state in taiyakiRenderers)
+                {
+                    state.Dispose();
+                }
             }
 
             if (circleSprite != null)
@@ -126,6 +132,7 @@ namespace TaiyakiKun
             ringRadius = Mathf.Max(0.1f, ringRadius);
             ringWidth = Mathf.Max(0.005f, ringWidth);
             whiteFlashFrequency = Mathf.Max(0.1f, whiteFlashFrequency);
+            whiteFlashOpacity = Mathf.Clamp01(whiteFlashOpacity);
             timerSize = Mathf.Max(64f, timerSize);
             timerMargin = Mathf.Max(0f, timerMargin);
         }
@@ -362,51 +369,6 @@ namespace TaiyakiKun
             taiyakiRenderers = states.ToArray();
         }
 
-        private void CreateWhiteFlashMaterial()
-        {
-            Shader whiteShader = Shader.Find("Universal Render Pipeline/Unlit");
-            if (whiteShader == null)
-            {
-                whiteShader = Shader.Find("Unlit/Color");
-            }
-
-            if (whiteShader == null)
-            {
-                whiteShader = Shader.Find("Sprites/Default");
-            }
-
-            if (whiteShader == null)
-            {
-                return;
-            }
-
-            whiteFlashMaterial = new Material(whiteShader)
-            {
-                name = "UV Protection White Flash (Runtime)",
-                hideFlags = HideFlags.DontSave
-            };
-
-            if (whiteFlashMaterial.HasProperty("_BaseColor"))
-            {
-                whiteFlashMaterial.SetColor("_BaseColor", Color.white);
-            }
-
-            if (whiteFlashMaterial.HasProperty("_Color"))
-            {
-                whiteFlashMaterial.SetColor("_Color", Color.white);
-            }
-
-            if (whiteFlashMaterial.HasProperty("_BaseMap"))
-            {
-                whiteFlashMaterial.SetTexture("_BaseMap", Texture2D.whiteTexture);
-            }
-
-            if (whiteFlashMaterial.HasProperty("_MainTex"))
-            {
-                whiteFlashMaterial.SetTexture("_MainTex", Texture2D.whiteTexture);
-            }
-        }
-
         private void UpdateEffectCenter()
         {
             bool foundVisibleRenderer = false;
@@ -453,15 +415,16 @@ namespace TaiyakiKun
                     continue;
                 }
 
-                state.Renderer.sharedMaterials = makeWhite && whiteFlashMaterial != null
-                    ? state.GetWhiteMaterials(whiteFlashMaterial)
+                state.Renderer.sharedMaterials = makeWhite
+                    ? state.GetWhiteOverlayMaterials(whiteFlashOpacity)
                     : state.OriginalMaterials;
             }
         }
 
         private sealed class RendererMaterialState
         {
-            private Material[] whiteMaterials;
+            private Material[] whiteOverlayMaterials;
+            private float cachedOverlayOpacity = -1f;
 
             public Renderer Renderer { get; }
             public Material[] OriginalMaterials { get; }
@@ -472,18 +435,99 @@ namespace TaiyakiKun
                 OriginalMaterials = originalMaterials;
             }
 
-            public Material[] GetWhiteMaterials(Material whiteMaterial)
+            public Material[] GetWhiteOverlayMaterials(float overlayOpacity)
             {
-                if (whiteMaterials == null || whiteMaterials.Length != OriginalMaterials.Length)
+                if (whiteOverlayMaterials == null
+                    || whiteOverlayMaterials.Length != OriginalMaterials.Length
+                    || !Mathf.Approximately(cachedOverlayOpacity, overlayOpacity))
                 {
-                    whiteMaterials = new Material[OriginalMaterials.Length];
-                    for (int index = 0; index < whiteMaterials.Length; index++)
+                    Dispose();
+                    cachedOverlayOpacity = overlayOpacity;
+                    whiteOverlayMaterials = new Material[OriginalMaterials.Length];
+                    for (int index = 0; index < whiteOverlayMaterials.Length; index++)
                     {
-                        whiteMaterials[index] = whiteMaterial;
+                        Material originalMaterial = OriginalMaterials[index];
+                        if (originalMaterial == null)
+                        {
+                            continue;
+                        }
+
+                        Material overlayMaterial = new Material(originalMaterial)
+                        {
+                            name = $"{originalMaterial.name} (UV White Overlay Runtime)",
+                            hideFlags = HideFlags.DontSave
+                        };
+                        ApplyWhiteOverlay(overlayMaterial, originalMaterial, overlayOpacity);
+                        whiteOverlayMaterials[index] = overlayMaterial;
                     }
                 }
 
-                return whiteMaterials;
+                return whiteOverlayMaterials;
+            }
+
+            public void Dispose()
+            {
+                if (whiteOverlayMaterials == null)
+                {
+                    return;
+                }
+
+                foreach (Material material in whiteOverlayMaterials)
+                {
+                    if (material != null)
+                    {
+                        Object.Destroy(material);
+                    }
+                }
+
+                whiteOverlayMaterials = null;
+                cachedOverlayOpacity = -1f;
+            }
+
+            private static void ApplyWhiteOverlay(
+                Material overlayMaterial,
+                Material originalMaterial,
+                float overlayOpacity)
+            {
+                float opacity = Mathf.Clamp01(overlayOpacity);
+                string colorProperty = overlayMaterial.HasProperty("_BaseColor")
+                    ? "_BaseColor"
+                    : overlayMaterial.HasProperty("_Color") ? "_Color" : null;
+                bool supportsEmission = overlayMaterial.HasProperty("_EmissionColor");
+
+                if (colorProperty != null)
+                {
+                    Color originalColor = originalMaterial.GetColor(colorProperty);
+                    Color overlayColor;
+                    if (supportsEmission)
+                    {
+                        // Keep the original texture and reserve part of its brightness
+                        // for the white layer: original * (1-a) + white * a.
+                        overlayColor = new Color(
+                            originalColor.r * (1f - opacity),
+                            originalColor.g * (1f - opacity),
+                            originalColor.b * (1f - opacity),
+                            originalColor.a);
+                    }
+                    else
+                    {
+                        overlayColor = Color.Lerp(originalColor, Color.white, opacity);
+                        overlayColor.a = originalColor.a;
+                    }
+
+                    overlayMaterial.SetColor(colorProperty, overlayColor);
+                }
+
+                if (supportsEmission)
+                {
+                    Color originalEmission = originalMaterial.HasProperty("_EmissionColor")
+                        ? originalMaterial.GetColor("_EmissionColor")
+                        : Color.black;
+                    Color whiteLayer = Color.Lerp(originalEmission, Color.white, opacity);
+                    overlayMaterial.SetColor("_EmissionColor", whiteLayer);
+                    overlayMaterial.EnableKeyword("_EMISSION");
+                    overlayMaterial.globalIlluminationFlags = MaterialGlobalIlluminationFlags.None;
+                }
             }
         }
 
