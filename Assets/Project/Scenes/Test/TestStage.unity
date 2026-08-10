@@ -2316,6 +2316,7 @@ GameObject:
   - component: {fileID: 552695392}
   - component: {fileID: 552695391}
   - component: {fileID: 552695390}
+  - component: {fileID: 552695401}
   - component: {fileID: 552695389}
   - component: {fileID: 552695388}
   - component: {fileID: 552695397}
@@ -2625,6 +2626,7 @@ MonoBehaviour:
   jumpSpeed: 30
   horizontalHopSpeed: 10
   airAcceleration: 14
+  airReleaseDeceleration: 35
   maximumHorizontalSpeed: 15
   minimumHopInterval: 0.55
   maximumRandomAngle: 0
@@ -2698,8 +2700,25 @@ MonoBehaviour:
   ringRadius: 0.85
   ringWidth: 0.045
   whiteFlashFrequency: 3
+  whiteFlashOpacity: 1
   timerSize: 112
   timerMargin: 24
+--- !u!114 &552695401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 552695387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3df8de97bb9f65e4fbfd3f2fd942f0c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AnkoBlendShapeController
+  scoreManager: {fileID: 552695389}
+  targetRenderer: {fileID: 1788529752}
+  targetAnkoCount: 3
+  blendShapeName: anko
 --- !u!1 &586299880 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1653408932793950, guid: 9d80a3a6ef041b24384a62ed42bf8c94, type: 3}
@@ -3851,7 +3870,6 @@ MonoBehaviour:
   attackCallVolume: 0.7
   autoTriggerOnStart: 0
   autoTriggerDelay: 4
-  showDemoInstructions: 1
   onShadowEntered:
     m_PersistentCalls:
       m_Calls: []
@@ -4991,7 +5009,6 @@ MonoBehaviour:
   attackCallVolume: 0.7
   autoTriggerOnStart: 0
   autoTriggerDelay: 4
-  showDemoInstructions: 1
   onShadowEntered:
     m_PersistentCalls:
       m_Calls: []
@@ -6975,7 +6992,6 @@ MonoBehaviour:
   attackCallVolume: 0.7
   autoTriggerOnStart: 0
   autoTriggerDelay: 4
-  showDemoInstructions: 1
   onShadowEntered:
     m_PersistentCalls:
       m_Calls: []
@@ -7508,6 +7524,11 @@ MeshFilter:
 --- !u!1 &1771347464 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 0a3bd92d22fb3fc4dafb97bfe7798b61, type: 3}
+  m_PrefabInstance: {fileID: 517216712}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &1788529752 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 5982291426338849696, guid: 0a3bd92d22fb3fc4dafb97bfe7798b61, type: 3}
   m_PrefabInstance: {fileID: 517216712}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1789990519
