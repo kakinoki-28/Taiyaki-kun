@@ -19,6 +19,13 @@ namespace TaiyakiKun
         [Tooltip("戻る先のシーン名")]
         [SerializeField] private string titleSceneName = "Title";
 
+        [Header("オーディオ設定")]
+        [SerializeField] private AudioClip gameoverBgmClip; // gameover_bgm用
+        [SerializeField] private AudioClip deathClip;       // death用
+
+        private AudioSource bgmSource;
+        private AudioSource seSource;
+
         private bool isGameOver = false;
         private Texture2D pixelTexture;
         private Font legacyFont;
@@ -35,6 +42,13 @@ namespace TaiyakiKun
 
             // フォントの取得
             legacyFont = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+
+            // オーディオソースの初期化
+            bgmSource = gameObject.AddComponent<AudioSource>();
+            bgmSource.loop = true;
+            bgmSource.clip = gameoverBgmClip;
+
+            seSource = gameObject.AddComponent<AudioSource>();
         }
 
         private void Update()
@@ -45,6 +59,10 @@ namespace TaiyakiKun
             {
                 isGameOver = true;
                 
+                // ゲームオーバー時に音楽とSEを再生
+                if (gameoverBgmClip != null) bgmSource.Play();
+                if (deathClip != null) seSource.PlayOneShot(deathClip);
+
                 Time.timeScale = 0f;
             }
         }
@@ -108,7 +126,6 @@ namespace TaiyakiKun
             if (GUI.Button(new Rect(buttonX, buttonY, buttonWidth, buttonHeight), "タイトルに戻る", buttonStyle))
             {
                 Time.timeScale = 1f;
-
                 SceneManager.LoadScene(titleSceneName);
             }
         }

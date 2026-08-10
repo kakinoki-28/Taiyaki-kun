@@ -2382,10 +2382,14 @@ MonoBehaviour:
   jumpSpeed: 30
   horizontalHopSpeed: 10
   airAcceleration: 14
+  airReleaseDeceleration: 35
   maximumHorizontalSpeed: 15
   minimumHopInterval: 0.55
   maximumRandomAngle: 0
   requireMoveInputToHop: 1
+  hopSounds: []
+  hopAudioSource: {fileID: 0}
+  hopSoundVolume: 0.65
   risingGravityMultiplier: 17
   apexVelocityThreshold: 7
   apexGravityMultiplier: 25
@@ -2420,6 +2424,7 @@ MonoBehaviour:
   emissionPropertyName: _EmissionColor
   vDecreaseRate: 0.1
   minV: 0
+  damageClip: {fileID: 8300000, guid: 54094dc2a42bb8740b302dbbabd63fde, type: 3}
 --- !u!114 &552695399
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2470,6 +2475,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MultiAnkoBlendShapeController
   scoreManager: {fileID: 0}
+  targetRenderer: {fileID: 0}
   targetAnkoCount: 8
   blendShapeName: anko
 --- !u!1 &586299880 stripped
@@ -3537,7 +3543,6 @@ MonoBehaviour:
   attackCallVolume: 0.7
   autoTriggerOnStart: 0
   autoTriggerDelay: 4
-  showDemoInstructions: 1
   onShadowEntered:
     m_PersistentCalls:
       m_Calls: []
@@ -4699,7 +4704,6 @@ MonoBehaviour:
   attackCallVolume: 0.7
   autoTriggerOnStart: 0
   autoTriggerDelay: 4
-  showDemoInstructions: 1
   onShadowEntered:
     m_PersistentCalls:
       m_Calls: []
@@ -7063,6 +7067,8 @@ MonoBehaviour:
   textColor: {r: 1, g: 0, b: 0, a: 1}
   baseFontSize: 72
   titleSceneName: Title
+  gameoverBgmClip: {fileID: 8300000, guid: 79c4357d004240d47aa8fce84a07968c, type: 3}
+  deathClip: {fileID: 8300000, guid: fd6108d50198a454c828bc4eeb2633d1, type: 3}
 --- !u!114 &1834678313
 MonoBehaviour:
   m_ObjectHideFlags: 0
