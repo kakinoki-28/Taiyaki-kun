@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Rendering;
+using UnityEngine.Serialization;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
 #endif
@@ -19,10 +20,21 @@ namespace TaiyakiKun
     {
         private static readonly int FlyingHash = Animator.StringToHash("flying");
         private static readonly int FlyingDirectionHash = Animator.StringToHash("flyingDirectionX");
+        private const string DefaultFightDustResourcePath = "UI/crow-fight-dust";
+        private const string FightDustOverlayShaderName = "TaiyakiKun/CrowFightDustOverlay";
+        private const string FightDustMaskShaderName = "TaiyakiKun/CrowFightDustMask";
+        private const int CrowMaskRenderQueue = 4998;
+        private const int FightDustRenderQueue = 4999;
+        private static int activeAttackTimeStops;
+        private static float timeScaleBeforeAttackStop = 1f;
 
         [Header("Attack Target")]
         [SerializeField] private Transform target;
-        [SerializeField] private Vector3 fallbackGroundPoint = new Vector3(0f, 0.25f, 2f);
+
+        [Header("Orbit Center")]
+        [FormerlySerializedAs("fallbackGroundPoint")]
+        [Tooltip("World-space center of the crow's warning orbit.")]
+        [SerializeField] private Vector3 orbitCenter = new Vector3(0f, 0.25f, 2f);
 
         [Header("Shadow Warning")]
         [SerializeField, Min(1f)] private float hoverHeight = 7f;
@@ -36,16 +48,40 @@ namespace TaiyakiKun
         [SerializeField] private Transform directionalLight;
         [SerializeField, Min(0.05f)] private float shadowTriggerRadius = 1.25f;
         [SerializeField] private bool attackOnShadowEnter = true;
+        [Tooltip("Stops the rest of the game during a shadow-triggered attack.")]
+        [SerializeField] private bool stopTimeDuringShadowAttack = true;
+        [FormerlySerializedAs("attackCall")]
+        [SerializeField] private AudioClip shadowContactSound;
+        [FormerlySerializedAs("attackCallVolume")]
+        [SerializeField, Range(0f, 1f)] private float shadowContactSoundVolume = 0.7f;
 
         [Header("Attack")]
-        [SerializeField, Min(0.1f)] private float diveDuration = 1.15f;
+        [SerializeField, Min(0.01f)] private float diveSpeed = 5f;
         [SerializeField, Min(0f)] private float diveWindup = 0.25f;
         [SerializeField, Min(0.1f)] private float lowHoverHeight = 1.1f;
         [SerializeField, Min(0f)] private float lowHoverDuration = 1.8f;
         [SerializeField, Min(0f)] private float lowHoverBobAmount = 0.12f;
-        [SerializeField, Min(0.1f)] private float ascentDuration = 1.35f;
-        [SerializeField] private AudioClip attackCall;
-        [SerializeField, Range(0f, 1f)] private float attackCallVolume = 0.7f;
+        [SerializeField, Min(0.01f)] private float ascentSpeed = 4.5f;
+        [Tooltip("Number of anko items removed when a shadow-triggered attack begins. Set to 0 to disable.")]
+        [SerializeField, Min(0)] private int ankoLossOnAttack = 1;
+        [SerializeField] private bool disappearAfterAscent = true;
+        [Tooltip("Additional height above the crow's position at attack start before it disappears.")]
+        [SerializeField, Min(0.01f)] private float disappearHeightAboveStart = 3f;
+
+        [Header("Attack World Effect")]
+        [Tooltip("Uses Resources/UI/crow-fight-dust when unassigned.")]
+        [SerializeField] private Texture2D fightDustTexture;
+        [SerializeField, Min(0.1f)] private float fightDustWorldSize = 4f;
+        [SerializeField] private Vector3 fightDustWorldOffset = new Vector3(0f, 1.2f, 0f);
+        [SerializeField, Range(0f, 1f)] private float fightDustOpacity = 1f;
+        [SerializeField, Range(0f, 0.2f)] private float fightDustPulseAmount = 0.04f;
+        [SerializeField, Min(0f)] private float fightDustPulseSpeed = 6f;
+        [SerializeField] private int fightDustSortingOrder = 100;
+        [SerializeField] private AudioClip fightDustSound;
+        [SerializeField, Range(0f, 1f)] private float fightDustSoundVolume = 1f;
+        [Tooltip("Playback speed. 1 is the clip's original speed.")]
+        [SerializeField, Range(0.1f, 3f)] private float fightDustSoundPitch = 1f;
+        [SerializeField] private bool loopFightDustSound = true;
 
         [Header("Demo Scene")]
         [SerializeField] private bool autoTriggerOnStart = true;
@@ -65,16 +101,39 @@ namespace TaiyakiKun
         private bool finished;
         private bool triggerObjectWasInShadow;
         private Collider shadowTriggerCollider;
+        private bool ownsAttackTimeStop;
+        private AnimatorUpdateMode animatorUpdateModeBeforeStop;
+        private GameObject fightDustObject;
+        private SpriteRenderer fightDustRenderer;
+        private AudioSource fightDustAudioSource;
+        private Sprite runtimeFightDustSprite;
+        private Material fightDustOverlayMaterial;
+        private Vector3 fightDustBaseScale = Vector3.one;
+        private bool fightDustVisible;
+        private Renderer[] crowRenderers;
+        private Renderer[] crowMaskRenderers;
+        private GameObject[] crowMaskObjects;
+        private Material fightDustMaskMaterial;
 
         public bool IsAttacking => attacking;
         public bool IsFinished => finished;
 
-        private Vector3 GroundPoint => target != null ? target.position : fallbackGroundPoint;
+        private Vector3 AttackGroundPoint => target != null
+            ? target.position
+            : orbitCenter;
+        private float AttackDeltaTime => ownsAttackTimeStop ? Time.unscaledDeltaTime : Time.deltaTime;
 
         private void Awake()
         {
             animator = GetComponent<Animator>();
             body = GetComponent<Rigidbody>();
+
+            if (fightDustTexture == null)
+            {
+                fightDustTexture = Resources.Load<Texture2D>(DefaultFightDustResourcePath);
+            }
+
+            CreateFightDustEffect();
 
             if (animator != null)
             {
@@ -88,11 +147,14 @@ namespace TaiyakiKun
                 body.useGravity = false;
             }
 
-            foreach (Renderer birdRenderer in GetComponentsInChildren<Renderer>(true))
+            crowRenderers = GetComponentsInChildren<Renderer>(true);
+            foreach (Renderer birdRenderer in crowRenderers)
             {
                 birdRenderer.shadowCastingMode = ShadowCastingMode.On;
                 birdRenderer.receiveShadows = true;
             }
+
+            CreateCrowMasks();
 
             CacheShadowTriggerCollider();
             EnterWarningState();
@@ -103,6 +165,14 @@ namespace TaiyakiKun
             autoTriggerAt = Time.time + autoTriggerDelay;
             // Start unlatched so an object already overlapping the shadow can still fire once.
             triggerObjectWasInShadow = false;
+        }
+
+        private void OnEnable()
+        {
+            if (fightDustObject == null)
+            {
+                CreateFightDustEffect();
+            }
         }
 
         private void Update()
@@ -127,9 +197,19 @@ namespace TaiyakiKun
         [ContextMenu("Trigger Attack")]
         public void TriggerAttack()
         {
+            TryTriggerAttack(false);
+        }
+
+        private void TryTriggerAttack(bool stopTime)
+        {
             if (attacking || finished)
             {
                 return;
+            }
+
+            if (stopTime)
+            {
+                BeginAttackTimeStop();
             }
 
             attackRoutine = StartCoroutine(AttackSequence());
@@ -145,11 +225,84 @@ namespace TaiyakiKun
                 attackRoutine = null;
             }
 
+            EndAttackTimeStop();
+            SetFightDustVisible(false);
             attacking = false;
             finished = false;
             autoTriggerOnStart = false;
             EnterWarningState();
             triggerObjectWasInShadow = false;
+        }
+
+        private void OnDisable()
+        {
+            SetFightDustVisible(false);
+            EndAttackTimeStop();
+        }
+
+        private void OnDestroy()
+        {
+            SetCrowMasksVisible(false);
+
+            if (fightDustObject != null)
+            {
+                Destroy(fightDustObject);
+            }
+
+            if (runtimeFightDustSprite != null)
+            {
+                Destroy(runtimeFightDustSprite);
+            }
+
+            if (fightDustOverlayMaterial != null)
+            {
+                Destroy(fightDustOverlayMaterial);
+            }
+
+            DestroyCrowMasks();
+        }
+
+        private void BeginAttackTimeStop()
+        {
+            if (!stopTimeDuringShadowAttack || ownsAttackTimeStop)
+            {
+                return;
+            }
+
+            ownsAttackTimeStop = true;
+            if (animator != null)
+            {
+                animatorUpdateModeBeforeStop = animator.updateMode;
+                animator.updateMode = AnimatorUpdateMode.UnscaledTime;
+            }
+
+            if (activeAttackTimeStops == 0)
+            {
+                timeScaleBeforeAttackStop = Time.timeScale;
+                Time.timeScale = 0f;
+            }
+
+            activeAttackTimeStops++;
+        }
+
+        private void EndAttackTimeStop()
+        {
+            if (!ownsAttackTimeStop)
+            {
+                return;
+            }
+
+            ownsAttackTimeStop = false;
+            if (animator != null)
+            {
+                animator.updateMode = animatorUpdateModeBeforeStop;
+            }
+
+            activeAttackTimeStops = Mathf.Max(0, activeAttackTimeStops - 1);
+            if (activeAttackTimeStops == 0)
+            {
+                Time.timeScale = timeScaleBeforeAttackStop;
+            }
         }
 
         /// <summary>Changes the only object that is allowed to activate the shadow event.</summary>
@@ -179,7 +332,7 @@ namespace TaiyakiKun
         {
             orbitAngle = 220f;
             Vector3 offset = OrbitOffset(orbitAngle);
-            transform.position = GroundPoint + offset + Vector3.up * hoverHeight;
+            transform.position = orbitCenter + offset + Vector3.up * hoverHeight;
             FaceHorizontalDirection(new Vector3(-offset.z, 0f, offset.x));
 
             if (animator != null)
@@ -194,7 +347,7 @@ namespace TaiyakiKun
         {
             orbitAngle += orbitSpeed * Time.deltaTime;
             Vector3 offset = OrbitOffset(orbitAngle);
-            transform.position = GroundPoint + offset + Vector3.up * hoverHeight;
+            transform.position = orbitCenter + offset + Vector3.up * hoverHeight;
             FaceHorizontalDirection(new Vector3(-offset.z, 0f, offset.x));
         }
 
@@ -209,14 +362,50 @@ namespace TaiyakiKun
             bool isInShadow = IsTriggerObjectInShadow();
             if (isInShadow && !triggerObjectWasInShadow)
             {
-                onShadowEntered?.Invoke();
+                triggerObjectWasInShadow = true;
+                target = shadowTriggerObject;
                 if (attackOnShadowEnter)
                 {
-                    TriggerAttack();
+                    TryTriggerAttack(true);
+                    RemoveAnkoFromAttackTarget();
                 }
+
+                PlayShadowContactSound();
+                onShadowEntered?.Invoke();
+                return;
             }
 
             triggerObjectWasInShadow = isInShadow;
+        }
+
+        private void RemoveAnkoFromAttackTarget()
+        {
+            if (ankoLossOnAttack <= 0 || shadowTriggerObject == null)
+            {
+                return;
+            }
+
+            ScoreManager scoreManager = shadowTriggerObject.GetComponentInParent<ScoreManager>();
+            if (scoreManager != null)
+            {
+                scoreManager.RemoveAnko(ankoLossOnAttack);
+            }
+        }
+
+        private void PlayShadowContactSound()
+        {
+            if (shadowContactSound == null)
+            {
+                return;
+            }
+
+            Vector3 soundPosition = shadowTriggerObject != null
+                ? shadowTriggerObject.position
+                : AttackGroundPoint;
+            AudioSource.PlayClipAtPoint(
+                shadowContactSound,
+                soundPosition,
+                shadowContactSoundVolume);
         }
 
         private bool IsTriggerObjectInShadow()
@@ -254,7 +443,7 @@ namespace TaiyakiKun
                 rayDirection = Vector3.down;
             }
 
-            float groundHeight = GroundPoint.y;
+            float groundHeight = orbitCenter.y;
             float distanceToGround = (groundHeight - transform.position.y) / rayDirection.y;
             if (distanceToGround < 0f)
             {
@@ -270,12 +459,9 @@ namespace TaiyakiKun
         private IEnumerator AttackSequence()
         {
             attacking = true;
+            float attackStartY = transform.position.y;
+            SetFightDustVisible(false);
             onAttackStarted?.Invoke();
-
-            if (attackCall != null)
-            {
-                AudioSource.PlayClipAtPoint(attackCall, GroundPoint + Vector3.up * 2f, attackCallVolume);
-            }
 
             // A short pull-up makes the shadow pause before the dive begins.
             Vector3 windupStart = transform.position;
@@ -283,16 +469,17 @@ namespace TaiyakiKun
             yield return MoveBetween(windupStart, windupEnd, diveWindup, true);
 
             Vector3 diveStart = transform.position;
-            Vector3 lowHoverPoint = GroundPoint + Vector3.up * lowHoverHeight;
+            Vector3 lowHoverPoint = AttackGroundPoint + Vector3.up * lowHoverHeight;
             Vector3 horizontalDirection = lowHoverPoint - diveStart;
             horizontalDirection.y = 0f;
             FaceHorizontalDirection(horizontalDirection);
 
-            float elapsed = 0f;
-            while (elapsed < diveDuration)
+            float diveDistance = Mathf.Max(Vector3.Distance(diveStart, lowHoverPoint), 0.001f);
+            float diveProgress = 0f;
+            while (diveProgress < 1f)
             {
-                elapsed += Time.deltaTime;
-                float t = Mathf.Clamp01(elapsed / diveDuration);
+                diveProgress += AttackDeltaTime * Mathf.Max(diveSpeed, 0.01f) / diveDistance;
+                float t = Mathf.Clamp01(diveProgress);
                 float eased = t * t * (3f - 2f * t);
 
                 // The shallow forward arc reads as a deliberate attack rather than a fall.
@@ -304,6 +491,7 @@ namespace TaiyakiKun
             }
 
             transform.position = lowHoverPoint;
+            SetFightDustVisible(true);
             FaceHorizontalDirection(Camera.main != null
                 ? Camera.main.transform.position - transform.position
                 : Vector3.back);
@@ -315,10 +503,10 @@ namespace TaiyakiKun
             }
 
             // Hold close to the floor with a small wing-driven bob instead of landing.
-            elapsed = 0f;
+            float elapsed = 0f;
             while (elapsed < lowHoverDuration)
             {
-                elapsed += Time.deltaTime;
+                elapsed += AttackDeltaTime;
                 float hoverPhase = elapsed * Mathf.PI * 2.4f;
                 transform.position = lowHoverPoint + Vector3.up * (Mathf.Sin(hoverPhase) * lowHoverBobAmount);
                 yield return null;
@@ -327,8 +515,17 @@ namespace TaiyakiKun
             transform.position = lowHoverPoint;
 
             // Return to the same overhead orbit so the shadow visibly pulls away again.
-            Vector3 ascentTarget = GroundPoint + OrbitOffset(orbitAngle) + Vector3.up * hoverHeight;
+            SetFightDustVisible(false);
+            EndAttackTimeStop();
+            Vector3 ascentTarget = orbitCenter + OrbitOffset(orbitAngle) + Vector3.up * hoverHeight;
+            if (disappearAfterAscent)
+            {
+                ascentTarget.y = attackStartY + Mathf.Max(disappearHeightAboveStart, 0.01f);
+            }
+
             FaceHorizontalDirection(ascentTarget - transform.position);
+            float ascentDistance = Vector3.Distance(transform.position, ascentTarget);
+            float ascentDuration = ascentDistance / Mathf.Max(ascentSpeed, 0.01f);
             yield return MoveBetween(transform.position, ascentTarget, ascentDuration, false);
 
             Vector3 orbitOffset = OrbitOffset(orbitAngle);
@@ -338,6 +535,249 @@ namespace TaiyakiKun
             finished = true;
             attackRoutine = null;
             onAttackFinished?.Invoke();
+
+            if (disappearAfterAscent)
+            {
+                gameObject.SetActive(false);
+            }
+        }
+
+        private void CreateCrowMasks()
+        {
+            if (crowRenderers == null)
+            {
+                return;
+            }
+
+            Shader maskShader = Shader.Find(FightDustMaskShaderName);
+            if (maskShader == null)
+            {
+                Debug.LogWarning(
+                    $"CrowAttackController: Shader '{FightDustMaskShaderName}' was not found.",
+                    this);
+                return;
+            }
+
+            fightDustMaskMaterial = new Material(maskShader)
+            {
+                hideFlags = HideFlags.DontSave,
+                renderQueue = CrowMaskRenderQueue
+            };
+            crowMaskRenderers = new Renderer[crowRenderers.Length];
+            crowMaskObjects = new GameObject[crowRenderers.Length];
+
+            for (int rendererIndex = 0; rendererIndex < crowRenderers.Length; rendererIndex++)
+            {
+                Renderer sourceRenderer = crowRenderers[rendererIndex];
+                GameObject maskObject = new GameObject($"{sourceRenderer.name} Fight Dust Mask")
+                {
+                    hideFlags = HideFlags.DontSave
+                };
+                maskObject.transform.SetParent(sourceRenderer.transform, false);
+
+                Renderer maskRenderer = CreateMaskRenderer(sourceRenderer, maskObject);
+                if (maskRenderer == null)
+                {
+                    Destroy(maskObject);
+                    continue;
+                }
+
+                int materialCount = Mathf.Max(1, sourceRenderer.sharedMaterials.Length);
+                Material[] maskMaterials = new Material[materialCount];
+                for (int materialIndex = 0; materialIndex < materialCount; materialIndex++)
+                {
+                    maskMaterials[materialIndex] = fightDustMaskMaterial;
+                }
+
+                maskRenderer.sharedMaterials = maskMaterials;
+                maskRenderer.shadowCastingMode = ShadowCastingMode.Off;
+                maskRenderer.receiveShadows = false;
+                maskRenderer.enabled = false;
+                crowMaskObjects[rendererIndex] = maskObject;
+                crowMaskRenderers[rendererIndex] = maskRenderer;
+            }
+        }
+
+        private static Renderer CreateMaskRenderer(Renderer sourceRenderer, GameObject maskObject)
+        {
+            if (sourceRenderer is SkinnedMeshRenderer sourceSkinnedRenderer)
+            {
+                SkinnedMeshRenderer maskRenderer = maskObject.AddComponent<SkinnedMeshRenderer>();
+                maskRenderer.sharedMesh = sourceSkinnedRenderer.sharedMesh;
+                maskRenderer.bones = sourceSkinnedRenderer.bones;
+                maskRenderer.rootBone = sourceSkinnedRenderer.rootBone;
+                maskRenderer.localBounds = sourceSkinnedRenderer.localBounds;
+                maskRenderer.updateWhenOffscreen = true;
+                return maskRenderer;
+            }
+
+            if (sourceRenderer is MeshRenderer)
+            {
+                MeshFilter sourceMeshFilter = sourceRenderer.GetComponent<MeshFilter>();
+                if (sourceMeshFilter == null || sourceMeshFilter.sharedMesh == null)
+                {
+                    return null;
+                }
+
+                MeshFilter maskMeshFilter = maskObject.AddComponent<MeshFilter>();
+                maskMeshFilter.sharedMesh = sourceMeshFilter.sharedMesh;
+                return maskObject.AddComponent<MeshRenderer>();
+            }
+
+            return null;
+        }
+
+        private void SetCrowMasksVisible(bool visible)
+        {
+            if (crowMaskRenderers == null)
+            {
+                return;
+            }
+
+            for (int rendererIndex = 0; rendererIndex < crowMaskRenderers.Length; rendererIndex++)
+            {
+                Renderer maskRenderer = crowMaskRenderers[rendererIndex];
+                Renderer sourceRenderer = crowRenderers[rendererIndex];
+                if (maskRenderer != null)
+                {
+                    maskRenderer.enabled = visible
+                        && sourceRenderer != null
+                        && sourceRenderer.enabled;
+                }
+            }
+        }
+
+        private void DestroyCrowMasks()
+        {
+            if (crowMaskObjects != null)
+            {
+                foreach (GameObject maskObject in crowMaskObjects)
+                {
+                    if (maskObject != null)
+                    {
+                        Destroy(maskObject);
+                    }
+                }
+            }
+
+            if (fightDustMaskMaterial != null)
+            {
+                Destroy(fightDustMaskMaterial);
+            }
+        }
+
+        private void CreateFightDustEffect()
+        {
+            if (fightDustTexture == null || fightDustObject != null)
+            {
+                return;
+            }
+
+            runtimeFightDustSprite = Sprite.Create(
+                fightDustTexture,
+                new Rect(0f, 0f, fightDustTexture.width, fightDustTexture.height),
+                new Vector2(0.5f, 0.5f),
+                100f,
+                0,
+                SpriteMeshType.FullRect);
+            runtimeFightDustSprite.name = "Crow Fight Dust Sprite";
+
+            fightDustObject = new GameObject("Crow Fight Dust Effect");
+            fightDustObject.hideFlags = HideFlags.DontSave;
+            fightDustRenderer = fightDustObject.AddComponent<SpriteRenderer>();
+            fightDustRenderer.sprite = runtimeFightDustSprite;
+            fightDustRenderer.color = new Color(1f, 1f, 1f, fightDustOpacity);
+            fightDustRenderer.sortingOrder = fightDustSortingOrder;
+            fightDustAudioSource = fightDustObject.AddComponent<AudioSource>();
+            fightDustAudioSource.playOnAwake = false;
+            fightDustAudioSource.spatialBlend = 0f;
+
+            Shader overlayShader = Shader.Find(FightDustOverlayShaderName);
+            if (overlayShader != null)
+            {
+                fightDustOverlayMaterial = new Material(overlayShader)
+                {
+                    hideFlags = HideFlags.DontSave,
+                    renderQueue = FightDustRenderQueue
+                };
+                fightDustRenderer.sharedMaterial = fightDustOverlayMaterial;
+            }
+            else
+            {
+                Debug.LogWarning(
+                    $"CrowAttackController: Shader '{FightDustOverlayShaderName}' was not found.",
+                    this);
+            }
+
+            float nativeHeight = Mathf.Max(runtimeFightDustSprite.bounds.size.y, 0.001f);
+            fightDustBaseScale = Vector3.one * (fightDustWorldSize / nativeHeight);
+            fightDustObject.SetActive(false);
+        }
+
+        private void SetFightDustVisible(bool visible)
+        {
+            fightDustVisible = visible && fightDustObject != null;
+            SetCrowMasksVisible(fightDustVisible);
+            if (fightDustObject == null)
+            {
+                return;
+            }
+
+            if (!fightDustVisible && fightDustAudioSource != null)
+            {
+                fightDustAudioSource.Stop();
+            }
+
+            fightDustObject.SetActive(fightDustVisible);
+            if (fightDustVisible)
+            {
+                UpdateFightDustTransform();
+                PlayFightDustSound();
+            }
+        }
+
+        private void PlayFightDustSound()
+        {
+            if (fightDustAudioSource == null || fightDustSound == null)
+            {
+                return;
+            }
+
+            fightDustAudioSource.clip = fightDustSound;
+            fightDustAudioSource.volume = fightDustSoundVolume;
+            fightDustAudioSource.pitch = fightDustSoundPitch;
+            fightDustAudioSource.loop = loopFightDustSound;
+            fightDustAudioSource.Play();
+        }
+
+        private void LateUpdate()
+        {
+            if (fightDustVisible)
+            {
+                SetCrowMasksVisible(true);
+                UpdateFightDustTransform();
+            }
+        }
+
+        private void UpdateFightDustTransform()
+        {
+            if (fightDustObject == null)
+            {
+                return;
+            }
+
+            Transform effectTransform = fightDustObject.transform;
+            effectTransform.position = AttackGroundPoint + fightDustWorldOffset;
+
+            Camera mainCamera = Camera.main;
+            if (mainCamera != null)
+            {
+                effectTransform.rotation = mainCamera.transform.rotation;
+            }
+
+            float pulse = 1f + Mathf.Sin(Time.unscaledTime * fightDustPulseSpeed)
+                * fightDustPulseAmount;
+            effectTransform.localScale = fightDustBaseScale * pulse;
         }
 
         private IEnumerator MoveBetween(Vector3 from, Vector3 to, float duration, bool easeOut)
@@ -351,7 +791,7 @@ namespace TaiyakiKun
             float elapsed = 0f;
             while (elapsed < duration)
             {
-                elapsed += Time.deltaTime;
+                elapsed += AttackDeltaTime;
                 float t = Mathf.Clamp01(elapsed / duration);
                 if (easeOut)
                 {
@@ -394,12 +834,12 @@ namespace TaiyakiKun
         private void OnDrawGizmosSelected()
         {
             Gizmos.color = new Color(1f, 0.25f, 0.1f, 0.9f);
-            Gizmos.DrawWireSphere(GroundPoint, 0.25f);
+            Gizmos.DrawWireSphere(AttackGroundPoint, 0.25f);
             Gizmos.color = new Color(1f, 0.85f, 0.1f, 0.65f);
-            Gizmos.DrawWireSphere(GroundPoint + Vector3.up * hoverHeight, orbitRadius);
+            Gizmos.DrawWireSphere(orbitCenter + Vector3.up * hoverHeight, orbitRadius);
             Gizmos.color = new Color(0.2f, 0.8f, 1f, 0.8f);
-            Gizmos.DrawWireSphere(GroundPoint + Vector3.up * lowHoverHeight, 0.2f);
-            Gizmos.DrawLine(GroundPoint + Vector3.up * hoverHeight, GroundPoint);
+            Gizmos.DrawWireSphere(AttackGroundPoint + Vector3.up * lowHoverHeight, 0.2f);
+            Gizmos.DrawLine(orbitCenter + Vector3.up * hoverHeight, orbitCenter);
 
             Gizmos.color = new Color(0.05f, 0.05f, 0.05f, 0.9f);
             Vector3 shadowPoint = GetProjectedShadowPoint();

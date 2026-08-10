@@ -246,17 +246,17 @@ namespace TaiyakiKun.Tests
             int collectedAmount = newCount - previousAnkoCount;
             previousAnkoCount = newCount;
 
-            if (collectedAmount <= 0)
-            {
-                return;
-            }
-
             if (fishHopper != null)
             {
                 float normalizedAnkoAmount = totalAnkoCount > 0
                     ? (float)newCount / totalAnkoCount
                     : 0f;
                 fishHopper.SetAnkoAmount(normalizedAnkoAmount);
+            }
+
+            if (collectedAmount <= 0)
+            {
+                return;
             }
 
             ShowPickupPopup($"+{collectedAmount}", new Color(1f, 0.83f, 0.12f));
@@ -273,7 +273,7 @@ namespace TaiyakiKun.Tests
         {
             popupText = message;
             popupColor = color;
-            popupStartedAt = Time.time;
+            popupStartedAt = Time.unscaledTime;
         }
 
         private void PlayPickupSound()
@@ -286,7 +286,7 @@ namespace TaiyakiKun.Tests
 
         private void DrawPickupPopup()
         {
-            float elapsed = Time.time - popupStartedAt;
+            float elapsed = Time.unscaledTime - popupStartedAt;
             if (string.IsNullOrEmpty(popupText)
                 || elapsed < 0f
                 || elapsed >= pickupPopupDuration)

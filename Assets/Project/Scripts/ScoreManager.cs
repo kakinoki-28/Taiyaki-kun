@@ -30,6 +30,25 @@ namespace TaiyakiKun
             Debug.Log($"[ScoreManager] Anko count: {ankoCount}", this);
         }
 
+        public void RemoveAnko(int amount = 1)
+        {
+            if (amount <= 0)
+            {
+                Debug.LogWarning("Anko amount to remove must be greater than zero.", this);
+                return;
+            }
+
+            int previousCount = ankoCount;
+            ankoCount = Mathf.Max(0, ankoCount - amount);
+            if (ankoCount == previousCount)
+            {
+                return;
+            }
+
+            AnkoCountChanged?.Invoke(ankoCount);
+            Debug.Log($"[ScoreManager] Anko count: {ankoCount}", this);
+        }
+
         [ContextMenu("Reset Anko Count")]
         public void ResetAnkoCount()
         {
