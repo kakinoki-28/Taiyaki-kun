@@ -1,22 +1,24 @@
 using UnityEngine;
 using TaiyakiKun;
 
-public class MultiAnkoBlendShapeController : MonoBehaviour
+public class AnkoBlendShapeController : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField, Tooltip("あんこの取得数を管理するScoreManager。アサインしない場合は同じオブジェクトから自動取得します。")]
+    [SerializeField, Tooltip("あんこの取得数を管理するScoreManager。")]
     private ScoreManager scoreManager;
+
+    [SerializeField, Tooltip("対象のSkinnedMeshRenderer。")]
+    private SkinnedMeshRenderer targetRenderer;
 
     [Header("Settings")]
     [SerializeField, Min(1), Tooltip("ブレンドシェイプが100になる目標のankoCount")]
-    private int targetAnkoCount = 10;
+    private int targetAnkoCount = 7;
 
     [SerializeField, Tooltip("変更するブレンドシェイプの名前")]
     private string blendShapeName = "anko";
 
-    // 取得したSkinnedMeshRendererと、それぞれのブレンドシェイプのインデックスをキャッシュする配列
-    private SkinnedMeshRenderer[] renderers;
-    private int[] blendShapeIndices;
+    // ブレンドシェイプのインデックスをキャッシュする変数
+    private int blendShapeIndex = -1;
 
     private void Awake()
     {
@@ -26,25 +28,24 @@ public class MultiAnkoBlendShapeController : MonoBehaviour
             scoreManager = GetComponent<ScoreManager>();
         }
 
-        // 子オブジェクトから全てのSkinnedMeshRendererを取得 (trueを指定して非アクティブなオブジェクトも取得対象にする)
-        renderers = GetComponentsInChildren<SkinnedMeshRenderer>(true);
-        blendShapeIndices = new int[renderers.Length];
-
-        // 各MeshRendererごとにブレンドシェイプのインデックスを検索して保存
-        for (int i = 0; i < renderers.Length; i++)
+        // SkinnedMeshRendererがアサインされていない場合は、アタッチされたGameObjectから取得
+        if (targetRenderer == null)
         {
-            if (renderers[i].sharedMesh != null)
+            targetRenderer = GetComponent<SkinnedMeshRenderer>();
+        }
+
+        // ブレンドシェイプのインデックスを検索して保存
+        if (targetRenderer != null && targetRenderer.sharedMesh != null)
+        {
+            blendShapeIndex = targetRenderer.sharedMesh.GetBlendShapeIndex(blendShapeName);
+            if (blendShapeIndex == -1)
             {
-                blendShapeIndices[i] = renderers[i].sharedMesh.GetBlendShapeIndex(blendShapeName);
-                if (blendShapeIndices[i] == -1)
-                {
-                    Debug.LogWarning($"[MultiAnkoBlendShapeController] {renderers[i].gameObject.name} にブレンドシェイプ '{blendShapeName}' が見つかりません。", renderers[i]);
-                }
+                Debug.LogWarning($"[AnkoBlendShapeController] {targetRenderer.gameObject.name} にブレンドシェイプ '{blendShapeName}' が見つかりません。", targetRenderer);
             }
-            else
-            {
-                blendShapeIndices[i] = -1;
-            }
+        }
+        else
+        {
+            Debug.LogWarning("[AnkoBlendShapeController] SkinnedMeshRendererが見つからないか、Meshが設定されていません。", this);
         }
     }
 
@@ -57,7 +58,7 @@ public class MultiAnkoBlendShapeController : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("[MultiAnkoBlendShapeController] ScoreManagerが見つかりません。", this);
+            Debug.LogWarning("[AnkoBlendShapeController] ScoreManagerが見つかりません。", this);
         }
     }
 
@@ -70,11 +71,12 @@ public class MultiAnkoBlendShapeController : MonoBehaviour
     }
 
     /// <summary>
-    /// ankoCountに応じてすべての子オブジェクトのブレンドシェイプを更新する
+    /// ankoCountに応じて対象のブレンドシェイプを更新する
     /// </summary>
     private void UpdateBlendShapeWeights(int currentAnkoCount)
     {
-        if (renderers == null || renderers.Length == 0) return;
+        // 対象がない、またはブレンドシェイプが見つかっていない場合は処理しない
+        if (targetRenderer == null || blendShapeIndex == -1) return;
 
         // 目標値に対する現在の取得数の割合を計算
         float progress = Mathf.Clamp01((float)currentAnkoCount / targetAnkoCount);
@@ -82,14 +84,7 @@ public class MultiAnkoBlendShapeController : MonoBehaviour
         // ブレンドシェイプのウェイト (0 ～ 100) を計算
         float weight = progress * 100f;
 
-        // 全てのSkinnedMeshRendererに値を適用
-        for (int i = 0; i < renderers.Length; i++)
-        {
-            // オブジェクトが存在し、対象のブレンドシェイプを持っている場合のみ適用
-            if (renderers[i] != null && blendShapeIndices[i] != -1)
-            {
-                renderers[i].SetBlendShapeWeight(blendShapeIndices[i], weight);
-            }
-        }
+        // SkinnedMeshRendererに値を適用
+        targetRenderer.SetBlendShapeWeight(blendShapeIndex, weight);
     }
 }
