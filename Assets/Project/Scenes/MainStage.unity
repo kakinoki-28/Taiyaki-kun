@@ -3468,23 +3468,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80ab707446ba43b69ebdad86f4cf7fe9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TaiyakiKun.CrowAttackController
-  target: {fileID: 509296066}
-  fallbackGroundPoint: {x: 0, y: 0.22, z: 2}
+  target: {fileID: 1887662217}
+  orbitCenter: {x: -9, y: 15, z: 200}
   hoverHeight: 15
   orbitRadius: 5
   orbitSpeed: 100
-  shadowTriggerObject: {fileID: 0}
+  shadowTriggerObject: {fileID: 1887662217}
   directionalLight: {fileID: 771273736}
-  shadowTriggerRadius: 5
+  shadowTriggerRadius: 0.5
   attackOnShadowEnter: 1
-  diveDuration: 1.15
+  stopTimeDuringShadowAttack: 1
+  shadowContactSound: {fileID: 8300000, guid: e2622b95524aab94b9a0448a1a4c6fc8, type: 3}
+  shadowContactSoundVolume: 0.7
+  diveSpeed: 200
   diveWindup: 0.25
   lowHoverHeight: 1.1
-  lowHoverDuration: 1.8
+  lowHoverDuration: 0.5
   lowHoverBobAmount: 0.12
-  ascentDuration: 1.35
-  attackCall: {fileID: 8300000, guid: e2622b95524aab94b9a0448a1a4c6fc8, type: 3}
-  attackCallVolume: 0.7
+  ascentSpeed: 10
+  ankoLossOnAttack: 1
+  disappearAfterAscent: 1
+  disappearHeightAboveStart: 3
+  fightDustTexture: {fileID: 0}
+  fightDustWorldSize: 8
+  fightDustWorldOffset: {x: 0, y: 1.2, z: 0}
+  fightDustOpacity: 1
+  fightDustPulseAmount: 0.04
+  fightDustPulseSpeed: 6
+  fightDustSortingOrder: 100
+  fightDustSound: {fileID: 8300000, guid: 0ed54062a252bd9498a749c4322cacd4, type: 3}
+  fightDustSoundVolume: 1
+  fightDustSoundPitch: 2
+  loopFightDustSound: 0
   autoTriggerOnStart: 0
   autoTriggerDelay: 4
   onShadowEntered:
@@ -4107,6 +4122,8 @@ MonoBehaviour:
   textColor: {r: 1, g: 0, b: 0, a: 1}
   baseFontSize: 72
   titleSceneName: MainStage
+  gameoverBgmClip: {fileID: 0}
+  deathClip: {fileID: 0}
 --- !u!114 &1002528522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4667,23 +4684,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80ab707446ba43b69ebdad86f4cf7fe9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TaiyakiKun.CrowAttackController
-  target: {fileID: 1135536086}
-  fallbackGroundPoint: {x: 0, y: 0.22, z: 2}
+  target: {fileID: 1887662217}
+  orbitCenter: {x: -6, y: 15, z: 190}
   hoverHeight: 15
   orbitRadius: 5
   orbitSpeed: 100
-  shadowTriggerObject: {fileID: 0}
+  shadowTriggerObject: {fileID: 1887662217}
   directionalLight: {fileID: 771273736}
-  shadowTriggerRadius: 5
+  shadowTriggerRadius: 0.5
   attackOnShadowEnter: 1
-  diveDuration: 1.15
+  stopTimeDuringShadowAttack: 1
+  shadowContactSound: {fileID: 8300000, guid: e2622b95524aab94b9a0448a1a4c6fc8, type: 3}
+  shadowContactSoundVolume: 0.7
+  diveSpeed: 200
   diveWindup: 0.25
   lowHoverHeight: 1.1
-  lowHoverDuration: 1.8
+  lowHoverDuration: 0.5
   lowHoverBobAmount: 0.12
-  ascentDuration: 1.35
-  attackCall: {fileID: 8300000, guid: e2622b95524aab94b9a0448a1a4c6fc8, type: 3}
-  attackCallVolume: 0.7
+  ascentSpeed: 10
+  ankoLossOnAttack: 1
+  disappearAfterAscent: 1
+  disappearHeightAboveStart: 3
+  fightDustTexture: {fileID: 0}
+  fightDustWorldSize: 8
+  fightDustWorldOffset: {x: 0, y: 1.2, z: 0}
+  fightDustOpacity: 1
+  fightDustPulseAmount: 0.04
+  fightDustPulseSpeed: 6
+  fightDustSortingOrder: 100
+  fightDustSound: {fileID: 8300000, guid: 0ed54062a252bd9498a749c4322cacd4, type: 3}
+  fightDustSoundVolume: 1
+  fightDustSoundPitch: 2
+  loopFightDustSound: 0
   autoTriggerOnStart: 0
   autoTriggerDelay: 4
   onShadowEntered:
@@ -6388,6 +6420,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InSeaDetectController
   ResultSceneName: Result
+  sunburnScript: {fileID: 0}
 --- !u!1 &1617767542
 GameObject:
   m_ObjectHideFlags: 0
@@ -6725,23 +6758,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80ab707446ba43b69ebdad86f4cf7fe9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TaiyakiKun.CrowAttackController
-  target: {fileID: 156317547}
-  fallbackGroundPoint: {x: 0, y: 0.22, z: 2}
+  target: {fileID: 1887662217}
+  orbitCenter: {x: 7, y: 15, z: 195}
   hoverHeight: 15
   orbitRadius: 5
   orbitSpeed: 100
-  shadowTriggerObject: {fileID: 0}
+  shadowTriggerObject: {fileID: 1887662217}
   directionalLight: {fileID: 771273736}
-  shadowTriggerRadius: 5
+  shadowTriggerRadius: 0.5
   attackOnShadowEnter: 1
-  diveDuration: 1.15
+  stopTimeDuringShadowAttack: 1
+  shadowContactSound: {fileID: 8300000, guid: e2622b95524aab94b9a0448a1a4c6fc8, type: 3}
+  shadowContactSoundVolume: 0.7
+  diveSpeed: 200
   diveWindup: 0.25
   lowHoverHeight: 1.1
-  lowHoverDuration: 1.8
+  lowHoverDuration: 0.5
   lowHoverBobAmount: 0.12
-  ascentDuration: 1.35
-  attackCall: {fileID: 8300000, guid: e2622b95524aab94b9a0448a1a4c6fc8, type: 3}
-  attackCallVolume: 0.7
+  ascentSpeed: 10
+  ankoLossOnAttack: 1
+  disappearAfterAscent: 1
+  disappearHeightAboveStart: 3
+  fightDustTexture: {fileID: 0}
+  fightDustWorldSize: 8
+  fightDustWorldOffset: {x: 0, y: 1.2, z: 0}
+  fightDustOpacity: 1
+  fightDustPulseAmount: 0.04
+  fightDustPulseSpeed: 6
+  fightDustSortingOrder: 100
+  fightDustSound: {fileID: 8300000, guid: 0ed54062a252bd9498a749c4322cacd4, type: 3}
+  fightDustSoundVolume: 1
+  fightDustSoundPitch: 2
+  loopFightDustSound: 0
   autoTriggerOnStart: 0
   autoTriggerDelay: 4
   onShadowEntered:
@@ -7820,6 +7868,7 @@ MonoBehaviour:
   emissionPropertyName: _EmissionColor
   vDecreaseRate: 0.1
   minV: 0
+  damageClip: {fileID: 0}
 --- !u!114 &1887662206
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7983,6 +8032,9 @@ MonoBehaviour:
   minimumHopInterval: 0.55
   maximumRandomAngle: 0
   requireMoveInputToHop: 1
+  hopSounds: []
+  hopAudioSource: {fileID: 0}
+  hopSoundVolume: 0.65
   risingGravityMultiplier: 17
   apexVelocityThreshold: 7
   apexGravityMultiplier: 25
@@ -8012,6 +8064,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MultiAnkoBlendShapeController
   scoreManager: {fileID: 1887662212}
+  targetRenderer: {fileID: 0}
   targetAnkoCount: 8
   blendShapeName: anko
 --- !u!114 &1887662211
