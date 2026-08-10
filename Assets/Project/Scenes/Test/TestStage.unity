@@ -1807,7 +1807,9 @@ Transform:
   m_Children:
   - {fileID: 2092092633}
   - {fileID: 2008729807}
+  - {fileID: 509296066}
   - {fileID: 866969644}
+  - {fileID: 1135536086}
   - {fileID: 1125599066}
   - {fileID: 206668713}
   - {fileID: 1516024455}
@@ -1912,6 +1914,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5362435462184835068, guid: ddbb8d1d034394dab8fa988661bab67d, type: 3}
   m_PrefabInstance: {fileID: 392525341}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &509296065
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 509296066}
+  m_Layer: 0
+  m_Name: Target1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &509296066
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 509296065}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -9, y: 0, z: 70}
+  m_LocalScale: {x: 15, y: 15, z: 15}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 437606964}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &517216712
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3673,11 +3706,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80ab707446ba43b69ebdad86f4cf7fe9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TaiyakiKun.CrowAttackController
-  target: {fileID: 0}
+  target: {fileID: 509296066}
   fallbackGroundPoint: {x: 0, y: 0.22, z: 2}
-  hoverHeight: 7
-  orbitRadius: 1.35
-  orbitSpeed: 50
+  hoverHeight: 15
+  orbitRadius: 5
+  orbitSpeed: 100
   shadowTriggerObject: {fileID: 0}
   directionalLight: {fileID: 0}
   shadowTriggerRadius: 0.5
@@ -4330,7 +4363,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fca472beb5d46347b90b9b6d0561cef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MoveCeilController
-  moveSpeed: 1
+  moveSpeed: 0.5
   moveDistance: 27
   moveDelay: 0
   moveX: 0
@@ -4385,7 +4418,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 100124, guid: 0646ceebc81f52a4e8a676e94ab46092, type: 3}
       propertyPath: m_Name
-      value: Crow_Attacker
+      value: Crow_Attacker1
       objectReference: {fileID: 0}
     - target: {fileID: 400124, guid: 0646ceebc81f52a4e8a676e94ab46092, type: 3}
       propertyPath: m_LocalScale.x
@@ -4401,11 +4434,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400124, guid: 0646ceebc81f52a4e8a676e94ab46092, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -10
+      value: -9
       objectReference: {fileID: 0}
     - target: {fileID: 400124, guid: 0646ceebc81f52a4e8a676e94ab46092, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 18
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 400124, guid: 0646ceebc81f52a4e8a676e94ab46092, type: 3}
       propertyPath: m_LocalPosition.z
@@ -4413,7 +4446,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400124, guid: 0646ceebc81f52a4e8a676e94ab46092, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.92387956
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 400124, guid: 0646ceebc81f52a4e8a676e94ab46092, type: 3}
       propertyPath: m_LocalRotation.x
@@ -4421,7 +4454,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400124, guid: 0646ceebc81f52a4e8a676e94ab46092, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.38268343
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400124, guid: 0646ceebc81f52a4e8a676e94ab46092, type: 3}
       propertyPath: m_LocalRotation.z
@@ -4433,7 +4466,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400124, guid: 0646ceebc81f52a4e8a676e94ab46092, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 45
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400124, guid: 0646ceebc81f52a4e8a676e94ab46092, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -4809,11 +4842,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80ab707446ba43b69ebdad86f4cf7fe9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TaiyakiKun.CrowAttackController
-  target: {fileID: 0}
+  target: {fileID: 1135536086}
   fallbackGroundPoint: {x: 0, y: 0.22, z: 2}
-  hoverHeight: 7
-  orbitRadius: 1.35
-  orbitSpeed: 50
+  hoverHeight: 15
+  orbitRadius: 5
+  orbitSpeed: 100
   shadowTriggerObject: {fileID: 0}
   directionalLight: {fileID: 0}
   shadowTriggerRadius: 0.5
@@ -4838,6 +4871,37 @@ MonoBehaviour:
   onAttackFinished:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &1135536085
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1135536086}
+  m_Layer: 0
+  m_Name: Target2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1135536086
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1135536085}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -6, y: 0, z: 60}
+  m_LocalScale: {x: 15, y: 15, z: 15}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 437606964}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1158271950
 GameObject:
   m_ObjectHideFlags: 0
@@ -6907,7 +6971,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 100124, guid: 0646ceebc81f52a4e8a676e94ab46092, type: 3}
       propertyPath: m_Name
-      value: Crow_Attacker (1)
+      value: Crow_Attacker2
       objectReference: {fileID: 0}
     - target: {fileID: 400124, guid: 0646ceebc81f52a4e8a676e94ab46092, type: 3}
       propertyPath: m_LocalScale.x
@@ -6923,11 +6987,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400124, guid: 0646ceebc81f52a4e8a676e94ab46092, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5
+      value: -6
       objectReference: {fileID: 0}
     - target: {fileID: 400124, guid: 0646ceebc81f52a4e8a676e94ab46092, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 18
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 400124, guid: 0646ceebc81f52a4e8a676e94ab46092, type: 3}
       propertyPath: m_LocalPosition.z
@@ -6935,7 +6999,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400124, guid: 0646ceebc81f52a4e8a676e94ab46092, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.92387956
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 400124, guid: 0646ceebc81f52a4e8a676e94ab46092, type: 3}
       propertyPath: m_LocalRotation.x
@@ -6943,7 +7007,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400124, guid: 0646ceebc81f52a4e8a676e94ab46092, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.38268343
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400124, guid: 0646ceebc81f52a4e8a676e94ab46092, type: 3}
       propertyPath: m_LocalRotation.z
@@ -6955,7 +7019,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400124, guid: 0646ceebc81f52a4e8a676e94ab46092, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 45
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400124, guid: 0646ceebc81f52a4e8a676e94ab46092, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -7840,7 +7904,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fca472beb5d46347b90b9b6d0561cef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MoveCeilController
-  moveSpeed: 1
+  moveSpeed: 0.5
   moveDistance: 27
   moveDelay: 0
   moveX: 0
