@@ -39,6 +39,7 @@ namespace TaiyakiKun.Tests
         [SerializeField]
         [Min(1f)]
         private float timeLimitSeconds = 300f;
+        public float TimeLimitSeconds => Mathf.Max(0f, timeLimitSeconds);
 
         [SerializeField]
         [Min(8)]
@@ -67,6 +68,7 @@ namespace TaiyakiKun.Tests
         private Color popupColor = Color.white;
         private float popupStartedAt = float.NegativeInfinity;
         private float elapsedSeconds;
+        public float ElapsedSeconds => Mathf.Max(0f, elapsedSeconds);
 
         private void Awake()
         {
