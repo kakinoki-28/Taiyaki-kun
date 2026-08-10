@@ -4122,8 +4122,8 @@ MonoBehaviour:
   textColor: {r: 1, g: 0, b: 0, a: 1}
   baseFontSize: 72
   titleSceneName: MainStage
-  gameoverBgmClip: {fileID: 0}
-  deathClip: {fileID: 0}
+  gameoverBgmClip: {fileID: 8300000, guid: 79c4357d004240d47aa8fce84a07968c, type: 3}
+  deathClip: {fileID: 8300000, guid: fd6108d50198a454c828bc4eeb2633d1, type: 3}
 --- !u!114 &1002528522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6368,6 +6368,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1589103361}
   - component: {fileID: 1589103362}
+  - component: {fileID: 1589103364}
   - component: {fileID: 1589103363}
   m_Layer: 0
   m_Name: InSeaDetector
@@ -6385,7 +6386,7 @@ Transform:
   m_GameObject: {fileID: 1589103360}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: 65}
+  m_LocalPosition: {x: 0, y: 0.5, z: 68}
   m_LocalScale: {x: 40, y: 1, z: 40}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6428,6 +6429,104 @@ MonoBehaviour:
   scoreManager: {fileID: 1887662212}
   sunburn: {fileID: 1887662205}
   ankoCollectionPlaygroundController: {fileID: 1887662211}
+  SplashClip: {fileID: 8300000, guid: 4bf40454bcecb134fa5e3fb486b9f05b, type: 3}
+--- !u!82 &1589103364
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1589103360}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1617767542
 GameObject:
   m_ObjectHideFlags: 0
@@ -7875,7 +7974,7 @@ MonoBehaviour:
   emissionPropertyName: _EmissionColor
   vDecreaseRate: 0.1
   minV: 0
-  damageClip: {fileID: 0}
+  damageClip: {fileID: 8300000, guid: 54094dc2a42bb8740b302dbbabd63fde, type: 3}
 --- !u!114 &1887662206
 MonoBehaviour:
   m_ObjectHideFlags: 0
