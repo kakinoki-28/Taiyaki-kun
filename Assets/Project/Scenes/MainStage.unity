@@ -4438,6 +4438,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1067798020}
   m_SourcePrefab: {fileID: 100100000, guid: 9d80a3a6ef041b24384a62ed42bf8c94, type: 3}
+--- !u!137 &1087860346 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 5982291426338849696, guid: 0a3bd92d22fb3fc4dafb97bfe7798b61, type: 3}
+  m_PrefabInstance: {fileID: 559433824}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1094606463
 GameObject:
   m_ObjectHideFlags: 0
@@ -6420,7 +6425,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InSeaDetectController
   ResultSceneName: Result
-  sunburnScript: {fileID: 0}
+  scoreManager: {fileID: 1887662212}
+  sunburn: {fileID: 1887662205}
+  ankoCollectionPlaygroundController: {fileID: 1887662211}
 --- !u!1 &1617767542
 GameObject:
   m_ObjectHideFlags: 0
@@ -8064,7 +8071,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MultiAnkoBlendShapeController
   scoreManager: {fileID: 1887662212}
-  targetRenderer: {fileID: 0}
+  targetRenderer: {fileID: 1087860346}
   targetAnkoCount: 8
   blendShapeName: anko
 --- !u!114 &1887662211
@@ -8085,6 +8092,8 @@ MonoBehaviour:
   depthBounds: {x: 0, y: 300}
   pickupPopupDuration: 0.8
   pickupPopupRise: 36
+  timeLimitSeconds: 300
+  overlayFontSize: 18
   fishHopper: {fileID: 1887662209}
   pickupSound: {fileID: 8300000, guid: 2fef8d4e6de584684b1cc07bc3624b05, type: 3}
   pickupSoundVolume: 0.85
@@ -8241,6 +8250,7 @@ MonoBehaviour:
   whiteFlashOpacity: 0.35
   timerSize: 112
   timerMargin: 24
+  timerFontSize: 18
 --- !u!1 &1893855894
 GameObject:
   m_ObjectHideFlags: 0
