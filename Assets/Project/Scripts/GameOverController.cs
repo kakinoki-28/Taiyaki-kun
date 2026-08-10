@@ -76,14 +76,27 @@ namespace TaiyakiKun
                 hover = { textColor = this.textColor },
                 active = { textColor = this.textColor }
             };
-            GUI.Label(new Rect(0, 0, screenWidth, screenHeight), "Game Over", textStyle);
+            GUI.Label(new Rect(0, -30f * scale, screenWidth, screenHeight), "Game Over", textStyle);
+
+            GUIStyle messageStyle = new GUIStyle(GUI.skin.label)
+            {
+                font = legacyFont,
+                fontSize = Mathf.RoundToInt(28 * scale),
+                fontStyle = FontStyle.Normal,
+                alignment = TextAnchor.MiddleCenter,
+                normal = { textColor = Color.white },
+                hover = { textColor = Color.white },
+                active = { textColor = Color.white }
+            };
+            // Game Over の文字の下に配置
+            GUI.Label(new Rect(0, 60f * scale, screenWidth, screenHeight), "たい焼きくんは焦げてしまいました...\n日差しをよけながら移動しよう！", messageStyle);
 
             // 3. タイトルへ戻るボタンの描画とクリック判定
             float buttonWidth = 240f * scale;
             float buttonHeight = 60f * scale;
             float buttonX = (screenWidth - buttonWidth) * 0.5f;
-            // Game Over の文字の少し下に配置
-            float buttonY = (screenHeight * 0.5f) + (100f * scale); 
+            // メッセージを追加した分、ボタンをさらに少し下へ配置
+            float buttonY = (screenHeight * 0.5f) + (160f * scale); 
 
             GUIStyle buttonStyle = new GUIStyle(GUI.skin.button)
             {

@@ -1,7 +1,7 @@
 using UnityEngine;
 using TaiyakiKun;
 
-public class MultiAnkoBlendShapeController : MonoBehaviour
+public class AnkoBlendShapeController : MonoBehaviour
 {
     [Header("References")]
     [SerializeField, Tooltip("あんこの取得数を管理するScoreManager。アサインしない場合は同じオブジェクトから自動取得します。")]
