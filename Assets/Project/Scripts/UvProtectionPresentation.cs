@@ -44,6 +44,10 @@ namespace TaiyakiKun
         [Min(0f)]
         private float timerMargin = 24f;
 
+        [SerializeField]
+        [Min(8)]
+        private int timerFontSize = 18;
+
         private global::Sunburn sunburn;
         private GameObject effectRoot;
         private Transform outerRingTransform;
@@ -135,6 +139,7 @@ namespace TaiyakiKun
             whiteFlashOpacity = Mathf.Clamp01(whiteFlashOpacity);
             timerSize = Mathf.Max(64f, timerSize);
             timerMargin = Mathf.Max(0f, timerMargin);
+            timerFontSize = Mathf.Max(8, timerFontSize);
         }
 
         private void CreateWorldEffect()
@@ -247,10 +252,10 @@ namespace TaiyakiKun
             scaler.matchWidthOrHeight = 0.5f;
 
             timerRoot = CreateRectObject("UV Timer", canvasObject.transform, out RectTransform rootRect);
-            rootRect.anchorMin = Vector2.one;
-            rootRect.anchorMax = Vector2.one;
-            rootRect.pivot = Vector2.one;
-            rootRect.anchoredPosition = new Vector2(-timerMargin, -timerMargin);
+            rootRect.anchorMin = Vector2.zero;
+            rootRect.anchorMax = Vector2.zero;
+            rootRect.pivot = Vector2.zero;
+            rootRect.anchoredPosition = new Vector2(timerMargin, timerMargin);
             rootRect.sizeDelta = new Vector2(timerSize, timerSize + 30f);
 
             GameObject backgroundObject = CreateRectObject(
@@ -286,7 +291,7 @@ namespace TaiyakiKun
             SetTopCircleRect(timeRect, timerSize);
             timerText = timeObject.AddComponent<Text>();
             timerText.font = font;
-            timerText.fontSize = Mathf.RoundToInt(timerSize * 0.25f);
+            timerText.fontSize = timerFontSize;
             timerText.fontStyle = FontStyle.Bold;
             timerText.alignment = TextAnchor.MiddleCenter;
             timerText.color = Color.white;
@@ -306,7 +311,7 @@ namespace TaiyakiKun
             labelRect.sizeDelta = new Vector2(timerSize + 30f, 28f);
             Text label = labelObject.AddComponent<Text>();
             label.font = font;
-            label.fontSize = Mathf.RoundToInt(timerSize * 0.18f);
+            label.fontSize = timerFontSize;
             label.fontStyle = FontStyle.Bold;
             label.alignment = TextAnchor.MiddleCenter;
             label.text = "UV CUT";
