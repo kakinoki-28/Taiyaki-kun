@@ -13,6 +13,9 @@ namespace TaiyakiKun
     {
         [Header("Counter")]
         [SerializeField] private bool showCounter = true;
+        [SerializeField] private bool showElapsedTime = true;
+        [SerializeField, Min(1f)] private float timeLimitSeconds = 300f;
+        [SerializeField, Min(8)] private int overlayFontSize = 18;
 
         [Header("Pickup Popup")]
         [SerializeField] private Vector3 popupWorldOffset = new Vector3(0f, 1.25f, 0f);
@@ -23,12 +26,17 @@ namespace TaiyakiKun
         private Camera gameplayCamera;
         private Canvas overlayCanvas;
         private Text counterText;
+        private Text elapsedTimeText;
         private Text popupText;
         private RectTransform popupRectTransform;
         private int totalAnkoCount;
         private int previousAnkoCount;
         private int popupAmount;
         private float popupStartedAt = float.NegativeInfinity;
+        private float elapsedSeconds;
+
+        public float ElapsedSeconds => elapsedSeconds;
+        public float RemainingSeconds => Mathf.Max(0f, timeLimitSeconds - elapsedSeconds);
 
         private void Awake()
         {
@@ -59,6 +67,8 @@ namespace TaiyakiKun
 
         private void Update()
         {
+            elapsedSeconds = Mathf.Min(timeLimitSeconds, elapsedSeconds + Time.deltaTime);
+            UpdateElapsedTime();
             UpdatePickupPopup();
         }
 
@@ -72,6 +82,8 @@ namespace TaiyakiKun
 
         private void OnValidate()
         {
+            timeLimitSeconds = Mathf.Max(1f, timeLimitSeconds);
+            overlayFontSize = Mathf.Max(8, overlayFontSize);
             popupDuration = Mathf.Max(0.1f, popupDuration);
             popupRise = Mathf.Max(0f, popupRise);
         }
@@ -110,7 +122,7 @@ namespace TaiyakiKun
             counterObject.transform.SetParent(canvasObject.transform, false);
             counterText = counterObject.AddComponent<Text>();
             counterText.font = font;
-            counterText.fontSize = 24;
+            counterText.fontSize = overlayFontSize;
             counterText.fontStyle = FontStyle.Bold;
             counterText.alignment = TextAnchor.UpperLeft;
             counterText.color = Color.white;
@@ -126,6 +138,28 @@ namespace TaiyakiKun
             counterRect.anchoredPosition = new Vector2(20f, -18f);
             counterRect.sizeDelta = new Vector2(340f, 44f);
             counterObject.SetActive(showCounter);
+
+            GameObject elapsedTimeObject = new GameObject("Elapsed Time");
+            elapsedTimeObject.transform.SetParent(canvasObject.transform, false);
+            elapsedTimeText = elapsedTimeObject.AddComponent<Text>();
+            elapsedTimeText.font = font;
+            elapsedTimeText.fontSize = overlayFontSize;
+            elapsedTimeText.fontStyle = FontStyle.Bold;
+            elapsedTimeText.alignment = TextAnchor.UpperRight;
+            elapsedTimeText.color = Color.white;
+            elapsedTimeText.raycastTarget = false;
+            Outline elapsedTimeOutline = elapsedTimeObject.AddComponent<Outline>();
+            elapsedTimeOutline.effectColor = new Color(0f, 0f, 0f, 0.85f);
+            elapsedTimeOutline.effectDistance = new Vector2(2f, -2f);
+
+            RectTransform elapsedTimeRect = elapsedTimeText.rectTransform;
+            elapsedTimeRect.anchorMin = new Vector2(1f, 1f);
+            elapsedTimeRect.anchorMax = new Vector2(1f, 1f);
+            elapsedTimeRect.pivot = new Vector2(1f, 1f);
+            elapsedTimeRect.anchoredPosition = new Vector2(-20f, -18f);
+            elapsedTimeRect.sizeDelta = new Vector2(240f, 44f);
+            elapsedTimeObject.SetActive(showElapsedTime);
+            UpdateElapsedTime();
 
             GameObject popupObject = new GameObject("Anko Pickup Popup");
             popupObject.transform.SetParent(canvasObject.transform, false);
@@ -172,6 +206,19 @@ namespace TaiyakiKun
             {
                 counterText.text = $"Anko: {scoreManager.AnkoCount} / {totalAnkoCount}";
             }
+        }
+
+        private void UpdateElapsedTime()
+        {
+            if (elapsedTimeText == null)
+            {
+                return;
+            }
+
+            int totalSeconds = Mathf.Max(0, Mathf.CeilToInt(RemainingSeconds));
+            int minutes = totalSeconds / 60;
+            int seconds = totalSeconds % 60;
+            elapsedTimeText.text = $"{minutes:00}:{seconds:00}";
         }
 
         private void UpdatePickupPopup()
