@@ -13,6 +13,10 @@ public class Sunburn : MonoBehaviour
     public float vDecreaseRate = 0.2f;
     public float minV = 0.0f;
 
+    [Header("オーディオ設定")]
+    [SerializeField] private AudioClip damageClip; // damage用
+    private AudioSource damageSource;
+
     public event Action UvProtectionActivated;
     public event Action UvProtectionEnded;
 
@@ -67,10 +71,22 @@ public class Sunburn : MonoBehaviour
                 Color.RGBToHSV(originalEmissionColor, out _, out _, out currentEmissionBrightness);
             }
         }
+
+        // オーディオソースの初期化
+        damageSource = gameObject.AddComponent<AudioSource>();
+        damageSource.loop = true;
+        damageSource.clip = damageClip;
     }
 
     private void Update()
     {
+        // ゲームオーバー時はダメージ音を停止する
+        if (SunburnHealthNormalized <= 0f)
+        {
+            StopDamageSound();
+            return;
+        }
+
         if (IsUvProtected)
         {
             uvProtectionRemaining -= Time.deltaTime;
@@ -79,6 +95,7 @@ public class Sunburn : MonoBehaviour
                 uvProtectionRemaining = 0f;
                 UvProtectionEnded?.Invoke();
             }
+            StopDamageSound(); // 保護されているので音を止める
             return;
         }
 
@@ -87,6 +104,25 @@ public class Sunburn : MonoBehaviour
         if (!shadowDetector.isInShadow)
         {
             DecreaseBrightness();
+            
+            // 焼けている間は音を再生する
+            if (damageClip != null && !damageSource.isPlaying)
+            {
+                damageSource.Play();
+            }
+        }
+        else
+        {
+            // 日陰に入ったら音を止める
+            StopDamageSound();
+        }
+    }
+
+    private void StopDamageSound()
+    {
+        if (damageSource != null && damageSource.isPlaying)
+        {
+            damageSource.Stop();
         }
     }
 
