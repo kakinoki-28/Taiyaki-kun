@@ -46,6 +46,12 @@ public sealed class FishHopper : MonoBehaviour
     [Tooltip("有効にすると、移動入力がある間だけ次のジャンプを行います。")]
     [SerializeField] private bool requireMoveInputToHop;
 
+    [Header("Hop Audio")]
+    [Tooltip("未指定の場合は Resources/HopSounds 内の音源を自動で使用します。")]
+    [SerializeField] private AudioClip[] hopSounds;
+    [SerializeField] private AudioSource hopAudioSource;
+    [SerializeField, Range(0f, 1f)] private float hopSoundVolume = 0.65f;
+
     [Header("Snappy Gravity")]
     [Tooltip("上昇中の重力倍率。1はUnity標準重力です。")]
     [Min(1f)] [SerializeField] private float risingGravityMultiplier = 1.7f;
@@ -133,6 +139,7 @@ public sealed class FishHopper : MonoBehaviour
             body = GetComponent<Rigidbody>();
         }
 
+        InitializeHopAudio();
         ApplyAnkoMass();
     }
 
@@ -190,6 +197,7 @@ public sealed class FishHopper : MonoBehaviour
         fallingGravityMultiplier = Mathf.Max(1f, fallingGravityMultiplier);
         emptyMass = Mathf.Max(0.01f, emptyMass);
         fullMass = Mathf.Max(0.01f, fullMass);
+        hopSoundVolume = Mathf.Clamp01(hopSoundVolume);
 
         if (body == null)
         {
@@ -323,10 +331,58 @@ public sealed class FishHopper : MonoBehaviour
         grounded = false;
         hopHasMoveInput = hopInput != Vector2.zero;
         nextHopTime = Time.time + minimumHopInterval;
+        PlayRandomHopSound();
 
         if (animator != null)
         {
             animator.SetTrigger("Hop");
+        }
+    }
+
+    private void InitializeHopAudio()
+    {
+        if (hopSounds == null || hopSounds.Length == 0)
+        {
+            hopSounds = Resources.LoadAll<AudioClip>("HopSounds");
+        }
+
+        if (hopSounds == null || hopSounds.Length == 0)
+        {
+            return;
+        }
+
+        if (hopAudioSource == null)
+        {
+            hopAudioSource = GetComponent<AudioSource>();
+        }
+
+        if (hopAudioSource == null)
+        {
+            hopAudioSource = gameObject.AddComponent<AudioSource>();
+            hopAudioSource.playOnAwake = false;
+            hopAudioSource.loop = false;
+            hopAudioSource.spatialBlend = 0f;
+        }
+    }
+
+    private void PlayRandomHopSound()
+    {
+        if (hopAudioSource == null || hopSounds == null || hopSounds.Length == 0)
+        {
+            return;
+        }
+
+        int startIndex = Random.Range(0, hopSounds.Length);
+        for (int offset = 0; offset < hopSounds.Length; offset++)
+        {
+            AudioClip clip = hopSounds[(startIndex + offset) % hopSounds.Length];
+            if (clip == null)
+            {
+                continue;
+            }
+
+            hopAudioSource.PlayOneShot(clip, hopSoundVolume);
+            return;
         }
     }
 
