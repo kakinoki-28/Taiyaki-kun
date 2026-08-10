@@ -58,11 +58,13 @@ public class Sunburn : MonoBehaviour
 
         if (targetMaterial != null)
         {
+            // 開始時にマテリアルのベースカラーを強制的に白（Color.white）にリセットする
             if (targetMaterial.HasProperty(colorPropertyName))
             {
-                originalColor = targetMaterial.GetColor(colorPropertyName);
-                Color.RGBToHSV(originalColor, out _, out _, out originalBrightness);
-                currentBrightness = originalBrightness;
+                targetMaterial.SetColor(colorPropertyName, Color.white);
+                originalColor = Color.white;
+                originalBrightness = 1f;
+                currentBrightness = 1f;
             }
 
             if (targetMaterial.HasProperty(emissionPropertyName))
@@ -162,7 +164,7 @@ public class Sunburn : MonoBehaviour
         {
             if (targetMaterial.HasProperty(colorPropertyName))
             {
-                targetMaterial.SetColor(colorPropertyName, originalColor);
+                targetMaterial.SetColor(colorPropertyName, Color.white);
             }
             
             if (targetMaterial.HasProperty(emissionPropertyName))

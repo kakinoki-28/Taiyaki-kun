@@ -37,6 +37,14 @@ namespace TaiyakiKun.Tests
         private float pickupPopupRise = 36f;
 
         [SerializeField]
+        [Min(1f)]
+        private float timeLimitSeconds = 300f;
+
+        [SerializeField]
+        [Min(8)]
+        private int overlayFontSize = 18;
+
+        [SerializeField]
         private global::FishHopper fishHopper;
 
         [SerializeField]
@@ -58,6 +66,7 @@ namespace TaiyakiKun.Tests
         private string popupText;
         private Color popupColor = Color.white;
         private float popupStartedAt = float.NegativeInfinity;
+        private float elapsedSeconds;
 
         private void Awake()
         {
@@ -109,6 +118,7 @@ namespace TaiyakiKun.Tests
 
         private void Update()
         {
+            elapsedSeconds = Mathf.Min(timeLimitSeconds, elapsedSeconds + Time.deltaTime);
             ReadKeyboardInput();
 
             if (fishHopper != null)
@@ -184,20 +194,33 @@ namespace TaiyakiKun.Tests
             GUI.color = previousColor;
 
             GUIStyle labelStyle = new GUIStyle(GUI.skin.label);
-            labelStyle.fontSize = 20;
+            labelStyle.fontSize = overlayFontSize;
             labelStyle.fontStyle = FontStyle.Bold;
+            labelStyle.alignment = TextAnchor.MiddleLeft;
+            labelStyle.clipping = TextClipping.Overflow;
             labelStyle.normal.textColor = Color.white;
 
             float health = sunburn != null ? sunburn.SunburnHealthNormalized : 1f;
-            GUI.Label(new Rect(34f, 31f, 82f, 30f), "日焼け", labelStyle);
+            GUI.Label(new Rect(34f, 25f, 82f, 40f), "日焼け", labelStyle);
             DrawSunburnBar(new Rect(112f, 33f, 274f, 27f), health, labelStyle);
 
             GUIStyle ankoStyle = new GUIStyle(labelStyle);
-            ankoStyle.fontSize = 24;
+            ankoStyle.fontSize = overlayFontSize;
             GUI.Label(
                 new Rect(34f, 79f, 340f, 34f),
                 $"あんこ量  {scoreManager.AnkoCount * 100}g",
                 ankoStyle);
+
+            float remainingSeconds = Mathf.Max(0f, timeLimitSeconds - elapsedSeconds);
+            int totalSeconds = Mathf.Max(0, Mathf.CeilToInt(remainingSeconds));
+            int minutes = totalSeconds / 60;
+            int seconds = totalSeconds % 60;
+            GUIStyle elapsedTimeStyle = new GUIStyle(ankoStyle);
+            elapsedTimeStyle.alignment = TextAnchor.UpperRight;
+            GUI.Label(
+                new Rect(Screen.width - 280f, 18f, 260f, 40f),
+                $"{minutes:00}:{seconds:00}",
+                elapsedTimeStyle);
 
             DrawPickupPopup();
         }
