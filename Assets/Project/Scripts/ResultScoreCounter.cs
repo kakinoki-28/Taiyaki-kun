@@ -18,6 +18,11 @@ namespace TaiyakiKun
         [SerializeField] private TMP_Text totalScoreValue;
         [SerializeField] private GameObject returnToTitleButton;
 
+        [Header("Result Sound")]
+        [SerializeField] private AudioClip resultSound;
+        [SerializeField, Range(0f, 1f)] private float resultSoundVolume = 1f;
+        [SerializeField, Range(0.1f, 3f)] private float resultSoundPitch = 1f;
+
         [Header("Data Source")]
         [Tooltip("When enabled, the preview values below are used instead of gameplay results.")]
         [SerializeField] private bool useSampleValues = true;
@@ -40,6 +45,28 @@ namespace TaiyakiKun
         private void Start()
         {
             RestartCountUp();
+        }
+
+        private void PlayResultSound()
+        {
+            if (resultSound == null)
+            {
+                return;
+            }
+
+            AudioSource audioSource = GetComponent<AudioSource>();
+            if (audioSource == null)
+            {
+                audioSource = gameObject.AddComponent<AudioSource>();
+            }
+
+            audioSource.playOnAwake = false;
+            audioSource.loop = false;
+            audioSource.spatialBlend = 0f;
+            audioSource.clip = resultSound;
+            audioSource.volume = resultSoundVolume;
+            audioSource.pitch = resultSoundPitch;
+            audioSource.Play();
         }
 
         public void RestartCountUp()
@@ -87,6 +114,8 @@ namespace TaiyakiKun
             {
                 yield return new WaitForSecondsRealtime(startDelay);
             }
+
+            PlayResultSound();
 
             // Play in the same order as the panels: Anko, Sunburn, then Time.
             yield return CountText(ankoValue, targetAnko, " g");
