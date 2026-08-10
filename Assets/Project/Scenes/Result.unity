@@ -1258,13 +1258,16 @@ MonoBehaviour:
   timeValue: {fileID: 1223811049}
   totalScoreValue: {fileID: 371188944}
   returnToTitleButton: {fileID: 1231818332}
+  resultSound: {fileID: 8300000, guid: ed190c050820818459b2a95705cf29d8, type: 3}
+  resultSoundVolume: 1
+  resultSoundPitch: 1
   useSampleValues: 0
   sampleAnkoGrams: 120
   sampleSunburnPercent: 72
   sampleTimeSeconds: 142
   startDelay: 2
   countDuration: 1
-  totalScoreDelay: 0.6
+  totalScoreDelay: 1.2
   returnButtonDelay: 1
 --- !u!1 &570109512
 GameObject:
