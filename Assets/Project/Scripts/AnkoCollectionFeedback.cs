@@ -88,7 +88,7 @@ namespace TaiyakiKun
             }
 
             popupAmount = collectedAmount;
-            popupStartedAt = Time.time;
+            popupStartedAt = Time.unscaledTime;
 
             if (popupText != null)
             {
@@ -181,7 +181,7 @@ namespace TaiyakiKun
                 return;
             }
 
-            float elapsed = Time.time - popupStartedAt;
+            float elapsed = Time.unscaledTime - popupStartedAt;
             if (elapsed < 0f || elapsed >= popupDuration)
             {
                 popupText.gameObject.SetActive(false);
