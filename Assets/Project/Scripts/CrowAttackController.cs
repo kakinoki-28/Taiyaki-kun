@@ -50,7 +50,6 @@ namespace TaiyakiKun
         [Header("Demo Scene")]
         [SerializeField] private bool autoTriggerOnStart = true;
         [SerializeField, Min(0f)] private float autoTriggerDelay = 4f;
-        [SerializeField] private bool showDemoInstructions = true;
 
         [Header("Events")]
         [SerializeField] private UnityEvent onShadowEntered;
@@ -113,7 +112,7 @@ namespace TaiyakiKun
                 UpdateWarningOrbit();
                 UpdateShadowTrigger();
 
-                if ((autoTriggerOnStart && Time.time >= autoTriggerAt) || AttackKeyPressed())
+                if (autoTriggerOnStart && Time.time >= autoTriggerAt)
                 {
                     TriggerAttack();
                 }
@@ -381,17 +380,6 @@ namespace TaiyakiKun
             }
         }
 
-        private static bool AttackKeyPressed()
-        {
-#if ENABLE_INPUT_SYSTEM
-            return Keyboard.current != null && Keyboard.current.spaceKey.wasPressedThisFrame;
-#elif ENABLE_LEGACY_INPUT_MANAGER
-            return Input.GetKeyDown(KeyCode.Space);
-#else
-            return false;
-#endif
-        }
-
         private static bool ResetKeyPressed()
         {
 #if ENABLE_INPUT_SYSTEM
@@ -401,50 +389,6 @@ namespace TaiyakiKun
 #else
             return false;
 #endif
-        }
-
-        private void OnGUI()
-        {
-            if (!showDemoInstructions)
-            {
-                return;
-            }
-
-            GUIStyle style = new GUIStyle(GUI.skin.box)
-            {
-                alignment = TextAnchor.MiddleCenter,
-                fontSize = Mathf.Max(16, Screen.height / 36),
-                normal = { textColor = Color.white }
-            };
-
-            string message;
-            if (!attacking && !finished)
-            {
-                float remaining = Mathf.Max(0f, autoTriggerAt - Time.time);
-                if (shadowTriggerObject != null)
-                {
-                    message = "Move the assigned object into the crow shadow  |  SPACE: trigger manually";
-                }
-                else if (autoTriggerOnStart)
-                {
-                    message =
-                        $"Crow shadow overhead  |  SPACE: attack now  |  auto attack in {remaining:0.0}s";
-                }
-                else
-                {
-                    message = "Assign Shadow Trigger Object  |  SPACE: trigger manually";
-                }
-            }
-            else if (attacking)
-            {
-                message = "Crow attack!";
-            }
-            else
-            {
-                message = "Crow returned overhead  |  R: reset";
-            }
-
-            GUI.Box(new Rect(Screen.width * 0.15f, 18f, Screen.width * 0.7f, 46f), message, style);
         }
 
         private void OnDrawGizmosSelected()

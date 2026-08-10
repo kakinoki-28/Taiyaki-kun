@@ -38,6 +38,8 @@ public sealed class FishHopper : MonoBehaviour
     [Min(0f)] [SerializeField] private float jumpSpeed = 6f;
     [Min(0f)] [SerializeField] private float horizontalHopSpeed = 3.5f;
     [Min(0f)] [SerializeField] private float airAcceleration = 12f;
+    [Tooltip("Acceleration applied against horizontal velocity after movement input is released in the air.")]
+    [Min(0f)] [SerializeField] private float airReleaseDeceleration = 35f;
     [Min(0f)] [SerializeField] private float maximumHorizontalSpeed = 5f;
     [Min(0f)] [SerializeField] private float minimumHopInterval = 0.06f;
     [Range(0f, 180f)] [SerializeField] private float maximumRandomAngle = 75f;
@@ -73,6 +75,7 @@ public sealed class FishHopper : MonoBehaviour
     [Min(0f)] [SerializeField] private float visualTurnSpeed = 540f;
 
     private Vector2 moveInput;
+    private bool hopHasMoveInput;
     private bool grounded;
     private float nextHopTime;
     private Vector3 lastHopDirection;
@@ -101,6 +104,7 @@ public sealed class FishHopper : MonoBehaviour
         jumpSpeed = 6f;
         horizontalHopSpeed = 3.5f;
         airAcceleration = 12f;
+        airReleaseDeceleration = 35f;
         maximumHorizontalSpeed = 5f;
         minimumHopInterval = 0.06f;
         maximumRandomAngle = 75f;
@@ -171,12 +175,15 @@ public sealed class FishHopper : MonoBehaviour
         enabledMoveActionHere = false;
         moveAction = null;
 #endif
+        moveInput = Vector2.zero;
+        hopHasMoveInput = false;
     }
 
     private void OnValidate()
     {
         ankoAmount = Mathf.Clamp01(ankoAmount);
         operationRatio = Mathf.Clamp01(operationRatio);
+        airReleaseDeceleration = Mathf.Max(0f, airReleaseDeceleration);
         risingGravityMultiplier = Mathf.Max(1f, risingGravityMultiplier);
         apexVelocityThreshold = Mathf.Max(0f, apexVelocityThreshold);
         apexGravityMultiplier = Mathf.Max(1f, apexGravityMultiplier);
@@ -226,7 +233,7 @@ public sealed class FishHopper : MonoBehaviour
             && Time.time >= nextHopTime
             && (!requireMoveInputToHop || hasMoveInput))
         {
-            Hop();
+            Hop(moveInput);
         }
         else if (grounded && requireMoveInputToHop && !hasMoveInput)
         {
@@ -291,13 +298,16 @@ public sealed class FishHopper : MonoBehaviour
         operationRatio = Mathf.Clamp01(operation);
     }
 
-    private void Hop()
+    private void Hop(Vector2 hopInput)
     {
         float jumpMultiplier = Mathf.Lerp(1f, fullAnkoJumpMultiplier, ankoAmount);
         float moveMultiplier = Mathf.Lerp(1f, fullAnkoMoveMultiplier, ankoAmount);
         float randomMultiplier = Mathf.Lerp(1f, fullAnkoRandomMultiplier, ankoAmount);
 
-        Vector3 horizontalVelocity = GetHopHorizontalVelocity(moveMultiplier, randomMultiplier);
+        Vector3 horizontalVelocity = GetHopHorizontalVelocity(
+            hopInput,
+            moveMultiplier,
+            randomMultiplier);
 
         Vector3 velocity = body.linearVelocity;
         velocity.y = jumpSpeed * jumpMultiplier;
@@ -311,6 +321,7 @@ public sealed class FishHopper : MonoBehaviour
         }
 
         grounded = false;
+        hopHasMoveInput = hopInput != Vector2.zero;
         nextHopTime = Time.time + minimumHopInterval;
 
         if (animator != null)
@@ -319,11 +330,14 @@ public sealed class FishHopper : MonoBehaviour
         }
     }
 
-    private Vector3 GetHopHorizontalVelocity(float moveMultiplier, float randomMultiplier)
+    private Vector3 GetHopHorizontalVelocity(
+        Vector2 hopInput,
+        float moveMultiplier,
+        float randomMultiplier)
     {
         float randomWeight = (1f - operationRatio) * randomMultiplier;
-        Vector3 inputDirection = moveInput != Vector2.zero
-            ? new Vector3(moveInput.x, 0f, moveInput.y).normalized
+        Vector3 inputDirection = hopInput != Vector2.zero
+            ? new Vector3(hopInput.x, 0f, hopInput.y).normalized
             : Vector3.zero;
 
         Vector3 referenceDirection = GetRandomReferenceDirection(inputDirection);
@@ -356,11 +370,22 @@ public sealed class FishHopper : MonoBehaviour
 
     private void ApplyAirControl()
     {
-        if (grounded || moveInput == Vector2.zero)
+        if (grounded)
         {
             return;
         }
 
+        if (moveInput == Vector2.zero)
+        {
+            if (hopHasMoveInput)
+            {
+                ApplyReleaseDeceleration();
+            }
+
+            return;
+        }
+
+        hopHasMoveInput = true;
         float controlMultiplier = Mathf.Lerp(1f, fullAnkoControlMultiplier, ankoAmount);
         float speedMultiplier = Mathf.Lerp(1f, fullAnkoMoveMultiplier, ankoAmount);
         Vector3 desiredDirection = new Vector3(moveInput.x, 0f, moveInput.y);
@@ -379,6 +404,23 @@ public sealed class FishHopper : MonoBehaviour
             horizontalVelocity = horizontalVelocity.normalized * speedLimit;
             body.linearVelocity = new Vector3(horizontalVelocity.x, velocity.y, horizontalVelocity.z);
         }
+    }
+
+    private void ApplyReleaseDeceleration()
+    {
+        Vector3 velocity = body.linearVelocity;
+        Vector3 horizontalVelocity = new Vector3(velocity.x, 0f, velocity.z);
+        float speed = horizontalVelocity.magnitude;
+        float speedReduction = airReleaseDeceleration * Time.fixedDeltaTime;
+
+        if (speed <= speedReduction)
+        {
+            body.linearVelocity = new Vector3(0f, velocity.y, 0f);
+            return;
+        }
+
+        Vector3 reverseAcceleration = -horizontalVelocity.normalized * airReleaseDeceleration;
+        body.AddForce(reverseAcceleration, ForceMode.Acceleration);
     }
 
     private void ApplyAdditionalGravity()
