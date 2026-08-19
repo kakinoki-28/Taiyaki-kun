@@ -4124,6 +4124,7 @@ MonoBehaviour:
   titleSceneName: MainStage
   gameoverBgmClip: {fileID: 8300000, guid: 79c4357d004240d47aa8fce84a07968c, type: 3}
   deathClip: {fileID: 8300000, guid: fd6108d50198a454c828bc4eeb2633d1, type: 3}
+  GameoverFont: {fileID: 12800000, guid: c0d21bacd6c16c44ba8b192c4f5a11b0, type: 3}
 --- !u!114 &1002528522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4141,6 +4142,9 @@ MonoBehaviour:
   timeValue: {fileID: 0}
   totalScoreValue: {fileID: 0}
   returnToTitleButton: {fileID: 0}
+  resultSound: {fileID: 0}
+  resultSoundVolume: 1
+  resultSoundPitch: 1
   useSampleValues: 1
   sampleAnkoGrams: 120
   sampleSunburnPercent: 72
@@ -4164,6 +4168,7 @@ MonoBehaviour:
   playerEntry: {fileID: 1887662204}
   gameTitle: "\u98DB\u3079\uFF01\u305F\u3044\u713C\u304D\u304F\u3093\uFF01"
   titleColor: {r: 1, g: 0.6, b: 0, a: 1}
+  TitleFont: {fileID: 12800000, guid: 2284e2e81f36e5d409de13763d64c9d8, type: 3}
 --- !u!4 &1002528524
 Transform:
   m_ObjectHideFlags: 0
@@ -8192,7 +8197,8 @@ MonoBehaviour:
   pickupPopupDuration: 0.8
   pickupPopupRise: 36
   timeLimitSeconds: 300
-  overlayFontSize: 18
+  overlayFont: {fileID: 12800000, guid: c0d21bacd6c16c44ba8b192c4f5a11b0, type: 3}
+  overlayFontSize: 23
   fishHopper: {fileID: 1887662209}
   pickupSound: {fileID: 8300000, guid: 2fef8d4e6de584684b1cc07bc3624b05, type: 3}
   pickupSoundVolume: 0.85
@@ -9110,7 +9116,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CrowAlertController
   crow: {fileID: 1318089025}
   destinationPosition: {x: 35, y: 18, z: 140}
-  moveSpeed: 30
+  moveSpeed: 45
 --- !u!23 &2092092635
 MeshRenderer:
   m_ObjectHideFlags: 0
