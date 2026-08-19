@@ -50,6 +50,7 @@ public class Sunburn : MonoBehaviour
 
     private float uvProtectionRemaining;
     private float activeUvProtectionDuration;
+    private bool AfterGoal;
 
     private void Start()
     {
@@ -109,6 +110,13 @@ public class Sunburn : MonoBehaviour
             damageEffect.StopDamageEffect();
             return;
         }
+        
+        if (AfterGoal)
+        {
+            StopDamageSound();
+            damageEffect.StopDamageEffect();
+            return;
+        }
 
         if (shadowDetector == null || targetMaterial == null) return;
 
@@ -144,6 +152,11 @@ public class Sunburn : MonoBehaviour
         activeUvProtectionDuration = Mathf.Max(0.1f, durationSeconds);
         uvProtectionRemaining = activeUvProtectionDuration;
         UvProtectionActivated?.Invoke();
+    }
+
+    public void SetAfterGoal(bool afterGoal)
+    {
+        AfterGoal = afterGoal;
     }
 
     private void DecreaseBrightness()
