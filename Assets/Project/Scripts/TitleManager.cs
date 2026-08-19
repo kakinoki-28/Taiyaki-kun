@@ -16,7 +16,8 @@ namespace TaiyakiKun
         public Color titleColor = new Color(1f, 0.6f, 0f, 1f);
 
         private bool isTitle = true;
-        private Font legacyFont;
+        [SerializeField] private Font TitleFont;
+
 
         private void Awake()
         {
@@ -25,11 +26,6 @@ namespace TaiyakiKun
             
             // ゲームオーバー時などに時間を止めていた場合、通常速度に戻す
             Time.timeScale = 1f;
-        }
-
-        private void Start()
-        {
-            legacyFont = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
         }
 
         private void Update()
@@ -71,9 +67,9 @@ namespace TaiyakiKun
 
             GUIStyle titleStyle = new GUIStyle(GUI.skin.label)
             {
-                font = legacyFont,
+                font = TitleFont,
                 fontSize = Mathf.RoundToInt(100 * scale),
-                fontStyle = FontStyle.Bold,
+                fontStyle = FontStyle.Normal,
                 alignment = TextAnchor.MiddleCenter,
                 normal = { textColor = titleColor }
             };
@@ -81,7 +77,7 @@ namespace TaiyakiKun
 
             GUIStyle promptStyle = new GUIStyle(GUI.skin.label)
             {
-                font = legacyFont,
+                font = TitleFont,
                 fontSize = Mathf.RoundToInt(30 * scale),
                 fontStyle = FontStyle.Normal,
                 alignment = TextAnchor.MiddleCenter

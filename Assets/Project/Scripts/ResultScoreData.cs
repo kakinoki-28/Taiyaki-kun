@@ -26,9 +26,9 @@ namespace TaiyakiKun
 
         public static int CalculateTotalScore(int ankoGrams, float sunburnPercent, float elapsedSeconds)
         {
-            int ankoPoints = Mathf.Max(0, ankoGrams) /800*1000;
-            int sunburnPoints = Mathf.RoundToInt(Mathf.Clamp(sunburnPercent, 0f, 100f) * 10f);
-            int timePoints = Mathf.Max(0, Mathf.RoundToInt(Mathf.Clamp(elapsedSeconds, 0f, 240f))/240*1000);
+            int ankoPoints = Mathf.Max(0, Mathf.RoundToInt(ankoGrams/800f*1000f));
+            int sunburnPoints = Mathf.RoundToInt((100f-Mathf.Clamp(sunburnPercent, 0f, 100f)) * 10f);
+            int timePoints = Mathf.Max(0, Mathf.RoundToInt(Mathf.Clamp(elapsedSeconds, 0f, 240f)/240f*1000f));
             return ankoPoints + sunburnPoints + timePoints;
         }
 

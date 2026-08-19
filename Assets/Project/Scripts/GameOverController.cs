@@ -28,7 +28,7 @@ namespace TaiyakiKun
 
         private bool isGameOver = false;
         private Texture2D pixelTexture;
-        private Font legacyFont;
+        [SerializeField] private Font GameoverFont;
 
         private void Awake()
         {
@@ -39,9 +39,6 @@ namespace TaiyakiKun
             };
             pixelTexture.SetPixel(0, 0, Color.white);
             pixelTexture.Apply();
-
-            // フォントの取得
-            legacyFont = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
 
             // オーディオソースの初期化
             bgmSource = gameObject.AddComponent<AudioSource>();
@@ -86,7 +83,7 @@ namespace TaiyakiKun
             // 2. 画面中央に赤文字で "Game Over" と表示
             GUIStyle textStyle = new GUIStyle(GUI.skin.label)
             {
-                font = legacyFont,
+                font = GameoverFont,
                 fontSize = Mathf.RoundToInt(baseFontSize * scale),
                 fontStyle = FontStyle.Bold,
                 alignment = TextAnchor.MiddleCenter,
@@ -98,7 +95,7 @@ namespace TaiyakiKun
 
             GUIStyle messageStyle = new GUIStyle(GUI.skin.label)
             {
-                font = legacyFont,
+                font = GameoverFont,
                 fontSize = Mathf.RoundToInt(28 * scale),
                 fontStyle = FontStyle.Normal,
                 alignment = TextAnchor.MiddleCenter,
@@ -118,7 +115,7 @@ namespace TaiyakiKun
 
             GUIStyle buttonStyle = new GUIStyle(GUI.skin.button)
             {
-                font = legacyFont,
+                font = GameoverFont,
                 fontSize = Mathf.RoundToInt(24 * scale)
             };
 

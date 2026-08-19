@@ -40,6 +40,8 @@ namespace TaiyakiKun.Tests
         [Min(1f)]
         private float timeLimitSeconds = 300f;
         public float TimeLimitSeconds => Mathf.Max(0f, timeLimitSeconds);
+        [SerializeField]
+        private Font overlayFont;
 
         [SerializeField]
         [Min(8)]
@@ -196,6 +198,7 @@ namespace TaiyakiKun.Tests
             GUI.color = previousColor;
 
             GUIStyle labelStyle = new GUIStyle(GUI.skin.label);
+            labelStyle.font = overlayFont;
             labelStyle.fontSize = overlayFontSize;
             labelStyle.fontStyle = FontStyle.Bold;
             labelStyle.alignment = TextAnchor.MiddleLeft;
@@ -207,6 +210,7 @@ namespace TaiyakiKun.Tests
             DrawSunburnBar(new Rect(112f, 33f, 274f, 27f), health, labelStyle);
 
             GUIStyle ankoStyle = new GUIStyle(labelStyle);
+            ankoStyle.font = overlayFont;
             ankoStyle.fontSize = overlayFontSize;
             GUI.Label(
                 new Rect(34f, 79f, 340f, 34f),
@@ -250,6 +254,7 @@ namespace TaiyakiKun.Tests
             DrawSolidRect(fillRect, fillColor);
 
             GUIStyle barLabelStyle = new GUIStyle(labelStyle);
+            barLabelStyle.font = labelStyle.font;
             barLabelStyle.fontSize = 16;
             barLabelStyle.alignment = TextAnchor.MiddleCenter;
             string barText = health >= 0.999f
