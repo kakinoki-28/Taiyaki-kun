@@ -18,6 +18,7 @@ namespace TaiyakiKun.Tests
         void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.CompareTag("Player")){
+                sunburn.SetAfterGoal(true);
                 Debug.Log("プレイヤーが海に到達しました！");
                 source.PlayOneShot(SplashClip, 1.0f);
                 StartCoroutine(SlowMotionAndTransition());

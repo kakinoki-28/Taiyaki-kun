@@ -1,6 +1,7 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using unityroom.Api;
 
 namespace TaiyakiKun
 {
@@ -130,6 +131,8 @@ namespace TaiyakiKun
             int totalScore = ResultScoreData.CalculateTotalScore(targetAnko, targetSunburn, targetTime);
             totalScoreValue.text = $"スコア {totalScore:N0} pt";
             totalScoreValue.gameObject.SetActive(true);
+
+            UnityroomApiClient.Instance.SendScore(1, totalScore, ScoreboardWriteMode.HighScoreDesc);
 
             if (returnToTitleButton != null)
             {
